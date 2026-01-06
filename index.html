@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Portfolio Form</title>
+</head>
+
+<body>
+
+    <header></header>
+
+    <Nav></Nav>
+
+    <section>
+        <form>
+            <!-- Input for portfolio name -->
+            <label><b>Portfolio Name</b></label>
+            <input type="text" required> <br><br>
+
+            <!-- Radio input for portfolio type -->
+            <label><b>Portfolio Type</b></label> <br>
+            <input type="radio" name="portfolioType" id="income">
+            <label for="income">Income Portfolio</label> <br>
+
+            <input type="radio" name="portfolioType" id="growth">
+            <label for="growth">Growth Portfolio</label> <br>
+
+            <input type="radio" name="portfolioType" id="value">
+            <label for="value">Value Portfolio</label> <br><br>
+
+            <!-- Dropdown for Investment Goal -->
+            <label><b>Investment Goal</b></label>
+            <select name="investmentGoal" id="investmentGoal" required>
+                <option value="Capital Appreciation">Capital Appreciation</option>
+                <option value="Income Generation">Income Generation</option>
+                <option value="Capital Preservation">Capital Preservation</option>
+                <option value="Tax Saving">Tax Saving</option>
+                <option value="Diversification">Diversification</option>
+                <option value="Beating Inflation">Beating Inflation</option>
+                <option value="Risk Management">Risk Management</option>
+                <option value="Meeting Specific Financial Requirements">Meeting Specific Financial Requirements</option>
+            </select> <br><br>
+
+            <!-- Dropdown for Investment Horizon -->
+            <label><b>Investment Horizon</b></label>
+            <select name="Investment Horizon" id="investmentHorizon" required>
+                <option value="Short-term Investment Horizon">Short-term Investment Horizon</option>
+                <option value="Medium-term Investment Horizon">Mediun-term Investment Horizon</option>
+                <option value="Long-term Investment Horizon">Long-term Investment Horizon</option>
+            </select> <br><br>
+
+            <!-- Radio for Risk Tolerance -->
+            <label><b>Risk Tolerance</b></label> <br>
+            <input type="radio" name="riskTolerance" id="aggresive">
+            <label for="aggresive">Aggresive</label> <br>
+
+            <input type="radio" name="riskTolerance" id="moderate">
+            <label for="moderate">Moderate</label> <br>
+
+            <input type="radio" name="riskTolerance" id="considerate">
+            <label for="considerate">Considerate</label> <br><br>
+
+            <!-- Input for Annual Investment Capacity -->
+            <label><b>Annual Investment Capacity</b></label>
+            <input type="text" required> <br><br>
+
+            <!-- Input for Lump Sum Amout -->
+            <label><b>Lump Sum Amount</b></label>
+            <input type="text"> <br><br>
+
+            <!-- Input for Monthly Contribution -->
+            <label><b>Monthly Contribution</b></label>
+            <input type="text"> <br><br>
+
+            <!-- Assets (can be Multiple) -->
+            <div class="asset-repetable-form-part" style="background-color: aqua;">
+                <!-- Asset class dropdown -->
+                <label><b>Asset Class</b></label>
+                <select name="assetClass" id="assetClass" required>
+                    <option value="stocks">Stocks</option>
+                    <option value="bond">Bond</option>
+                    <option value="cash">Cash</option>
+                    <option value="real estate">Real Estate</option>
+                    <option value="forex">Forex</option>
+                </select> <br><br>
+
+                <!-- Input for Annual Investment Capacity -->
+                <label><b>Percentage Allocation</b></label>
+                <input type="text" required> <br><br>
+
+                <!-- Input for Lump Sum Amout -->
+                <label><b>Specific Fund</b></label>
+                <input type="text"> <br><br>
+
+                <!-- Input for Monthly Contribution -->
+                <label><b>Current Value</b></label>
+                <input type="text"> <br><br>
+            </div> <br>
+            <button>Add asset</button> <br><br>
+
+            <!-- Checkboxes for Investment Styles -->
+            <label><b>Investment Style</b></label> <br>
+            <input type="checkbox" name="largeInvestmentStyle" id="largeCap" value="">
+            <label for="largeCap">Large-Cap</label> <br>
+
+            <input type="checkbox" name="midInvestmentStyle" id="midCap" value="">
+            <label for="midCap">Mid-Cap</label> <br>
+
+            <input type="checkbox" name="smallInvestmentStyle" id="smallCap" value="">
+            <label for="smallCap">Small-Cap</label> <br><br>
+
+            <!-- textarea for Financial Goals -->
+            <label><b>Financial Goals</b></label> <br>
+            <textarea name="Financial Goals" rows="10" cols="50"></textarea> <br><br>
+
+            <!-- checkbox for Risk Acknowledgement -->
+            <input type="checkbox" name="riskAcknowledgement" id="riskAck" required>
+            <label for="riskAck" style="text-align: center;"><b>Risk Acknowledgement</b> - All investments are subject to market risks. Please read all scheme-related documents carefully before investing.</label> <br>
+        </form>
+    </section>
+
+    <footer></footer>
+
+</body>
+
+</html>
