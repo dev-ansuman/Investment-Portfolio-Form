@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Investment Portfolio Form</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+
 </head>
 
 <body>
@@ -14,114 +17,256 @@
     <Nav></Nav>
 
     <section>
+
         <form>
-            <!-- Input for portfolio name -->
-            <label><b>Portfolio Name</b></label>
-            <input type="text" required> <br><br>
+            <div class="content">
+                <div class="part1" id="part1">
 
-            <!-- Radio input for portfolio type -->
-            <label><b>Portfolio Type</b></label> <br>
-            <input type="radio" name="portfolioType" id="income">
-            <label for="income">Income Portfolio</label> <br>
+                    <div class="imagePart1">
+                        <img src="./images/save-money.png">
+                    </div>
 
-            <input type="radio" name="portfolioType" id="growth">
-            <label for="growth">Growth Portfolio</label> <br>
+                    <div class="formPart1">
+                        <div class="portfolioName">
+                            <!-- Input for portfolio name -->
+                            <h2><b>Portfolio Name</b></h2>
+                            <input type="text" required>
+                        </div>
 
-            <input type="radio" name="portfolioType" id="value">
-            <label for="value">Value Portfolio</label> <br><br>
+                        <div class="portfolioType">
+                            <!-- Radio input for portfolio type -->
+                            <h2><b>Portfolio Type</b></h2>
+                            <div class="radioPortfolioType">
+                                <div class="radioPortfolioTypeElement">
+                                    <input type="radio" name="portfolioType" id="income">
+                                    <label for="income">Income Portfolio</label>
+                                </div>
 
-            <!-- Dropdown for Investment Goal -->
-            <label><b>Investment Goal</b></label>
-            <select name="investmentGoal" id="investmentGoal" required>
-                <option value="Capital Appreciation">Capital Appreciation</option>
-                <option value="Income Generation">Income Generation</option>
-                <option value="Capital Preservation">Capital Preservation</option>
-                <option value="Tax Saving">Tax Saving</option>
-                <option value="Diversification">Diversification</option>
-                <option value="Beating Inflation">Beating Inflation</option>
-                <option value="Risk Management">Risk Management</option>
-                <option value="Meeting Specific Financial Requirements">Meeting Specific Financial Requirements</option>
-            </select> <br><br>
 
-            <!-- Dropdown for Investment Horizon -->
-            <label><b>Investment Horizon</b></label>
-            <select name="Investment Horizon" id="investmentHorizon" required>
-                <option value="Short-term Investment Horizon">Short-term Investment Horizon</option>
-                <option value="Medium-term Investment Horizon">Mediun-term Investment Horizon</option>
-                <option value="Long-term Investment Horizon">Long-term Investment Horizon</option>
-            </select> <br><br>
+                                <div class="radioPortfolioTypeElement">
+                                    <input type="radio" name="portfolioType" id="growth">
+                                    <label for="growth">Growth Portfolio</label>
+                                </div>
 
-            <!-- Radio for Risk Tolerance -->
-            <label><b>Risk Tolerance</b></label> <br>
-            <input type="radio" name="riskTolerance" id="aggresive">
-            <label for="aggresive">Aggresive</label> <br>
+                                <div class="radioPortfolioTypeElement">
+                                    <input type="radio" name="portfolioType" id="value">
+                                    <label for="value">Value Portfolio</label>
+                                </div>
+                            </div>
+                        </div>
 
-            <input type="radio" name="riskTolerance" id="moderate">
-            <label for="moderate">Moderate</label> <br>
+                        <div class="investmentGoal">
+                            <!-- Dropdown for Investment Goal -->
+                            <h2><b>Investment Goal</b></h2>
+                            <select name="investmentGoal" id="investmentGoal" required>
+                                <option value="Income Generation">Income Generation</option>
+                                <option value="Capital Preservation">Capital Preservation</option>
+                                <option value="Tax Saving">Tax Saving</option>
+                                <option value="Diversification">Diversification</option>
+                                <option value="Beating Inflation">Beating Inflation</option>
+                                <option value="Risk Management">Risk Management</option>
+                                <option value="Meeting Specific Financial Requirements">Meeting Specific Financial
+                                    Requirements</option>
+                                <option value="Capital Appreciation">Capital Appreciation</option>
+                            </select>
+                        </div>
 
-            <input type="radio" name="riskTolerance" id="considerate">
-            <label for="considerate">Considerate</label> <br><br>
+                        <div class="investmentHorizon">
+                            <!-- Dropdown for Investment Horizon -->
+                            <h2><b>Investment Horizon</b></h2>
+                            <select name="Investment Horizon" id="investmentHorizon" required>
+                                <option value="Short-term Investment Horizon">Short-term Investment Horizon</option>
+                                <option value="Medium-term Investment Horizon">Mediun-term Investment Horizon</option>
+                                <option value="Long-term Investment Horizon">Long-term Investment Horizon</option>
+                            </select>
+                        </div>
 
-            <!-- Input for Annual Investment Capacity -->
-            <label><b>Annual Investment Capacity</b></label>
-            <input type="text" required> <br><br>
+                        <div class="riskTolerance">
+                            <!-- Radio for Risk Tolerance -->
+                            <h2><b>Risk Tolerance</b></h2> <br>
+                            <div class="riskToleranceRadio">
+                                <div class="riskToleranceRadioElement">
+                                    <input type="radio" name="riskTolerance" id="aggresive">
+                                    <label for="aggresive">Aggresive</label>
+                                </div>
 
-            <!-- Input for Lump Sum Amout -->
-            <label><b>Lump Sum Amount</b></label>
-            <input type="text"> <br><br>
+                                <div class="riskToleranceRadioElement">
+                                    <input type="radio" name="riskTolerance" id="moderate">
+                                    <label for="moderate">Moderate</label>
+                                </div>
 
-            <!-- Input for Monthly Contribution -->
-            <label><b>Monthly Contribution</b></label>
-            <input type="text"> <br><br>
+                                <div class="riskToleranceRadioElement">
+                                    <input type="radio" name="riskTolerance" id="considerate">
+                                    <label for="considerate">Considerate</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Assets (can be Multiple) -->
-            <div class="asset-repetable-form-part" style="background-color: aqua;">
-                <!-- Asset class dropdown -->
-                <label><b>Asset Class</b></label>
-                <select name="assetClass" id="assetClass" required>
-                    <option value="stocks">Stocks</option>
-                    <option value="bond">Bond</option>
-                    <option value="cash">Cash</option>
-                    <option value="real estate">Real Estate</option>
-                    <option value="forex">Forex</option>
-                </select> <br><br>
+                </div>
 
-                <!-- Input for Annual Investment Capacity -->
-                <label><b>Percentage Allocation</b></label>
-                <input type="text" required> <br><br>
+                <div class="part2" id="part2" style="display: none;">
 
-                <!-- Input for Lump Sum Amout -->
-                <label><b>Specific Fund</b></label>
-                <input type="text"> <br><br>
+                    <div class="formPart2">
+                        <div class="annualInvestmentCapacity">
+                            <!-- Input for Annual Investment Capacity -->
+                            <h3>Annual Investment Capacity</h3>
+                            <input type="text" required>
+                        </div>
 
-                <!-- Input for Monthly Contribution -->
-                <label><b>Current Value</b></label>
-                <input type="text"> <br><br>
-            </div> <br>
-            <button>Add asset</button> <br><br>
+                        <div class="lumpSumAmount">
+                            <!-- Input for Lump Sum Amout -->
+                            <h3>Lump Sum Amount</h3>
+                            <input type="text">
+                        </div>
 
-            <!-- Checkboxes for Investment Styles -->
-            <label><b>Investment Style</b></label> <br>
-            <input type="checkbox" name="largeInvestmentStyle" id="largeCap" value="">
-            <label for="largeCap">Large-Cap</label> <br>
+                        <div class="monthlyContribution">
+                            <!-- Input for Monthly Contribution -->
+                            <h3>Monthly Contribution</h3>
+                            <input type="text">
+                        </div>
 
-            <input type="checkbox" name="midInvestmentStyle" id="midCap" value="">
-            <label for="midCap">Mid-Cap</label> <br>
+                        <!-- Assets (can be Multiple) -->
+                        <div class="assets">
+                            <!-- style="background-color: aqua;" -->
 
-            <input type="checkbox" name="smallInvestmentStyle" id="smallCap" value="">
-            <label for="smallCap">Small-Cap</label> <br><br>
+                            <span class="assetClass">
+                                <!-- Asset class dropdown -->
+                                <div class="assetLabel">
+                                    <label><b>Asset Class</b></label>
+                                </div>
+                                <div class="assetDropdown">
+                                    <select name="assetClass" id="assetClass" required>
+                                        <option value="stocks">Stocks</option>
+                                        <option value="bond">Bond</option>
+                                        <option value="cash">Cash</option>
+                                        <option value="real estate">Real Estate</option>
+                                        <option value="forex">Forex</option>
+                                    </select>
+                                </div>
+                            </span>
 
-            <!-- textarea for Financial Goals -->
-            <label><b>Financial Goals</b></label> <br>
-            <textarea name="Financial Goals" rows="10" cols="50"></textarea> <br><br>
+                            <span class="percentageAllocation">
+                                <!-- Input for Percentage Allocation -->
+                                <div class="percentageAllocationLabel">
+                                    <label><b>Percentage Allocation</b></label>
+                                </div>
+                                <div class="percentageAllocationInput">
+                                    <input type="text" required>
+                                </div>
+                            </span>
 
-            <!-- checkbox for Risk Acknowledgement -->
-            <input type="checkbox" name="riskAcknowledgement" id="riskAck" required>
-            <label for="riskAck" style="text-align: center;"><b>Risk Acknowledgement</b> - All investments are subject to market risks. Please read all scheme-related documents carefully before investing.</label> <br>
+                            <span class="specificFund">
+                                <!-- Input for specific fund -->
+                                <div class="specificFundLabel">
+                                    <label><b>Specific Fund</b></label>
+                                </div>
+                                <div class="specificFundInput">
+                                    <input type="text">
+                                </div>
+                            </span>
+
+                            <span class="currentValue">
+                                <!-- Input for current Value -->
+                                <div class="currentValueLabel">
+                                    <label><b>Current Value</b></label>
+                                </div>
+                                <div class="currentValueInput">
+                                    <input type="text">
+                                </div>
+                            </span>
+
+                            <span class="removeAsset">
+                                <button>🗑️</button>
+                            </span>
+                        </div>
+
+                        <div class="addAsset">
+                            <button class="addAssetButton">Add asset</button>
+                        </div>
+
+                        <div class="investmentStyle">
+                            <!-- Checkboxes for Investment Styles -->
+                            <label><b>Investment Style</b></label> <br>
+                            <input type="checkbox" name="largeInvestmentStyle" id="largeCap" value="">
+                            <label for="largeCap">Large-Cap</label> <br>
+
+                            <input type="checkbox" name="midInvestmentStyle" id="midCap" value="">
+                            <label for="midCap">Mid-Cap</label> <br>
+
+                            <input type="checkbox" name="smallInvestmentStyle" id="smallCap" value="">
+                            <label for="smallCap">Small-Cap</label>
+                        </div>
+
+                    </div>
+
+                    <div class="imagePart2">
+                        <img src="./images/investment.png">
+                    </div>
+                </div>
+
+                <div class="part3" id="part3" style="display: none;">
+
+                    <div class="imagePart3">
+                        <img src="./images/profit.png">
+                    </div>
+
+                    <div class="formPart3">
+
+                        <!-- Radio for Automated Rebalancing -->
+                        <div class="automatedRebalancing">
+                            <h3>opt for Automated Rebalancing?</h3>
+                            <div class="automatedRebalancingRadio">
+                                <input type="radio" name="automatedRebalancing" id="yes">
+                                <label for="yes"><b>Yes</b></label>
+
+                                <input type="radio" name="automatedRebalancing" id="no">
+                                <label for="no"><b>No</b></label>
+                            </div>
+                        </div>
+
+                        <!-- checkbox for tax saving preference -->
+                        <div class="taxSavingPref">
+                            <input type="checkbox" name="taxSavingPrefernce" id="taxPref" required>
+                            <label for="taxPref"><b>Tax Saving Preference</b></label>
+                        </div>
+
+                        <!-- textarea for Financial Goals -->
+                        <div class="financialGoals">
+                            <h3>Future Financial Goals</h3>
+                            <textarea name="FinancialGoals" rows="10" cols="50" placeholder="Briefly describe"
+                                style="width: 80%;height: 95%;"></textarea>
+                        </div>
+
+                        <!-- checkbox for Risk Acknowledgement -->
+                        <div class="riskAcknowledgement">
+                            <span>
+                                <input type="checkbox" name="riskAcknowledgement" id="riskAck" required>
+                            </span>
+                            <span id="riskAckLabel" class="riskAcknowledgementText">
+                                <label for="riskAck"><b>Risk Acknowledgement -</b></label>
+                            </span>
+                            <span id="riskAckDesc">All
+                                investments are subject to market risks. Please read all scheme-related documents
+                                carefully before investing.</span>
+                        </div>
+
+                        <!-- submit button -->
+                        <div class="submitButton">
+                            <button>Submit</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
         </form>
+
     </section>
 
-    <footer></footer>
+    <footer>
+        <button onclick=previousPage()>previous</button>
+        <button onclick=nextPage()>Next</button>
+    </footer>
 
 </body>
 
