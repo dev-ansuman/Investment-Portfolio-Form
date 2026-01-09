@@ -89,7 +89,9 @@ const formSubmit = () => {
     let submit = validatePart3AutomatedRebalancing() && validatePart3AckCheckBox()
 
     if (submit) {
+
         alert('The form is submitted')
+
     } else {
         alert('Please fill all the required fields')
     }
@@ -126,7 +128,7 @@ const addAsset = () => {
                                         <label><b>Percentage Allocation(%)*</b></label>
                                     </div>
                                     <div class="percentageAllocationContainer">
-                                        <input type="text" class="percentageAllocationInput" id="percentageAllocationInput-${assetId}" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
+                                        <input type="number" class="percentageAllocationInput" id="percentageAllocationInput-${assetId}" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
                                     </div>
                                 </div>
 
@@ -146,7 +148,7 @@ const addAsset = () => {
                                         <label><b>Current Value</b></label>
                                     </div>
                                     <div class="currentValueInput">
-                                        <input type="text">
+                                        <input type="number" placeholder="INR">
                                     </div>
                                 </div>
 
@@ -199,7 +201,7 @@ const validatePart1PortfolioName = () => {
         return false
     }
 
-    if (portfolioNameInput.value.length < 2) {
+    if (portfolioNameInput.value.length <= 2) {
         const errorMessage = document.createElement("div")
         errorMessage.className = 'errorPortfolioNameInput'
         errorMessage.innerText = "atleast 3 characters required!"
@@ -347,18 +349,32 @@ const validatePart2AnnualInvestmentCapacity = () => {
         checkError.remove();
     }
 
-    if (annualInvestmentCapacityInput.value.length < 0) {
+    console.log('some value', annualInvestmentCapacityInput.value)
+
+    if (annualInvestmentCapacityInput.value == '') {
 
         console.log(annualInvestmentCapacityInput.value.length)
         let errorMessage = document.createElement("div")
         errorMessage.className = 'errorAnnualInvestmentCapacityInput'
-        errorMessage.innerText = "must be more"
+        errorMessage.innerText = "This is a required field!"
         errorMessage.style.color = "red"
         errorMessage.style.fontSize = '13.65px'
         annualInvestment.appendChild(errorMessage)
 
         return false
     }
+    // if (annualInvestmentCapacityInput.value.length < 0) {
+
+    //     console.log(annualInvestmentCapacityInput.value.length)
+    //     let errorMessage = document.createElement("div")
+    //     errorMessage.className = 'errorAnnualInvestmentCapacityInput'
+    //     errorMessage.innerText = "must be more"
+    //     errorMessage.style.color = "red"
+    //     errorMessage.style.fontSize = '13.65px'
+    //     annualInvestment.appendChild(errorMessage)
+
+    //     return false
+    // }
 
     if ((!checkNumber(annualInvestmentCapacityInput.value) || annualInvestmentCapacityInput.value < 1) && annualInvestmentCapacityInput.value != '') {
         let errorMessage = document.createElement("div")
@@ -460,7 +476,7 @@ const validatePart2percentageAllocation = () => {
             presence = false
         }
 
-        else if (percentageAllocationInput.value < 1 || percentageAllocationInput.value > 100 || !checkNumber(percentageAllocationInput.value)) {
+        else if (percentageAllocationInput.value < 1 || percentageAllocationInput.value > 100) {
             const errorMessage = document.createElement("div")
             errorMessage.className = 'errorPercentageAllocation'
             errorMessage.innerText = "Invalid Percentage!"
