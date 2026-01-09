@@ -137,7 +137,8 @@
                             <!-- Input for Annual Investment Capacity -->
                             <div class="formTitle annualCapacityText">Annual Investment Capacity*</div>
                             <div class="annualCapacityContainer">
-                                <input type="text" id="annualInvestmentCapacityInput" onkeypress="validatePart2AnnualInvestmentCapacity()">
+                                <input type="text" id="annualInvestmentCapacityInput"
+                                    onkeypress="validatePart2AnnualInvestmentCapacity()" placeholder="INR">
                                 <!-- <div class="errorDiv" id="errorDiv">error will be added here</div> -->
                             </div>
 
@@ -147,7 +148,7 @@
                             <!-- Input for Lump Sum Amout -->
                             <div class="formTitle">Lump Sum Amount</div>
                             <div class="lumpSumAmoutText">
-                                <input type="text">
+                                <input type="number" placeholder="INR">
                                 <!-- <div class="errorDiv" id="errorCopy">error will be added here</div> -->
                             </div>
                         </div>
@@ -156,7 +157,7 @@
                             <!-- Input for Monthly Contribution -->
                             <div class="formTitle">Monthly Contribution</div>
                             <div class="monthlyContributionText">
-                                <input type="text">
+                                <input type="number" placeholder="INR">
                                 <!-- <div id="errorDiv">error will be added here</div> -->
                             </div>
                         </div>
@@ -171,7 +172,8 @@
                                         <label><b>Asset Class*</b></label>
                                     </div>
                                     <div class="assetDropdown">
-                                        <select name="assetClass" class="assetClassDropdown" id="assetClass1" onchange="autoSuggestSpecificFund('assetClass1', 'specificFundAuto1')">
+                                        <select name="assetClass" class="assetClassDropdown" id="assetClass1"
+                                            onchange="autoSuggestSpecificFund('assetClass1', 'specificFundAuto1')">
                                             <option value="">-- Select --</option>
                                             <option value="Equity">Stocks</option>
                                             <option value="Fixed Income">Bond</option>
@@ -188,7 +190,10 @@
                                         <label><b>Percentage Allocation(%)*</b></label>
                                     </div>
                                     <div class="percentageAllocationContainer">
-                                        <input type="text" class="percentageAllocationInput" id="percentageAllocationInput-1" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
+                                        <input type="number" class="percentageAllocationInput"
+                                            id="percentageAllocationInput-1"
+                                            onkeypress="validatePart2percentageAllocation()"
+                                            onchange="validatePart2percentageAllocation()">
                                     </div>
                                 </div>
 
@@ -198,7 +203,7 @@
                                         <label><b>Specific Fund</b></label>
                                     </div>
                                     <div class="specificFundInput">
-                                        <input type="text" id="specificFundAuto1" value="auto suggested">
+                                        <input type="text" id="specificFundAuto1" >
                                     </div>
                                 </div>
 
@@ -208,7 +213,7 @@
                                         <label><b>Current Value</b></label>
                                     </div>
                                     <div class="currentValueInput">
-                                        <input type="text">
+                                        <input type="number" placeholder="INR">
                                     </div>
                                 </div>
 
