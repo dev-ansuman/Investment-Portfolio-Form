@@ -7,8 +7,8 @@ header {
     height: 14vh;
     /* width: 100vw; */
     /* background-color: rgb(13, 5, 75); */
-    position: sticky;
-    top: 0;
+    /* position: sticky;
+    top: 0; */
 }
 
 body {
@@ -70,7 +70,11 @@ footer {
     /* background-color: blue; */
 }
 
-.formPart1 .portfolioName input {
+/* .formPart1 .portfolioName input {
+    width: 20vw;
+} */
+
+#portfolioNameInput {
     width: 20vw;
 }
 
@@ -133,10 +137,10 @@ footer {
     font-size: small;
 }
 
-/* .investmentGoalDropdown {
-    display: flex;
-    flex-direction: column;
-} */
+.formTitle {
+    font-size: 23px;
+    font-weight: 600;
+}
 
 .part2 {
     width: 100%;
@@ -150,7 +154,7 @@ footer {
     /* background-color: grey; */
     background-color: rgb(215, 228, 243);
     /* height: 100%; */
-    /* width: 50%; */
+    width: 51%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -171,6 +175,8 @@ footer {
 
 .addAssetButton {
     width: 12%;
+    border-radius: 10px;
+    border: 2px solid aliceblue;
 }
 
 .annualInvestmentCapacity,
@@ -178,7 +184,8 @@ footer {
 .monthlyContribution {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    /* align-items: center; */
+    align-items: flex-start;
 }
 
 .annualInvestmentCapacity input,
@@ -227,10 +234,6 @@ footer {
     height: 4vh;
 }
 
-/* .assets select {
-    width: 90%;
-} */
-
 .removeAsset {
     display: flex;
     align-items: end;
@@ -262,7 +265,7 @@ footer {
     /* background-color: grey; */
     background-color: rgb(215, 228, 243);
     height: 100%;
-    width: 54%;
+    width: 51%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -297,8 +300,12 @@ footer {
 }
 
 .riskAcknowledgementText {
-    font-size: 16.5px;
+    font-size: 17px;
     /* background-color: rebeccapurple; */
+}
+
+.riskAckCheck {
+    display: flex;
 }
 
 .imagePart3 {
@@ -334,6 +341,7 @@ footer {
 
 #riskAckDesc {
     text-align: center;
+    font-size: 14px;
     /* background-color: orange; */
 }
 
@@ -358,6 +366,147 @@ footer {
 .buttonContainer {
     display: flex;
     /* background-color: red; */
-    /* width: 63%; */
-    justify-content: space-around;
+    width: 51%;
+    justify-content: space-between;
+    margin: auto;
+}
+
+.errorDiv {
+    font-size: 13.65px;
+    color: transparent;
+}
+
+/* for part1 */
+@media screen and (max-width: 916px) {
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    header h1 {
+        font-size: 30px;
+    }
+
+    .portfolioName,
+    .portfolioType,
+    .investmentHorizon,
+    .riskTolerance,
+    .investmentGoalSelect 
+        {
+        flex-direction: column;
+        /* align-items: center; */
+        font-size: xx-small;
+        width: 100%;
+        /* background-color: green; */
+        gap: 1px;
+    }
+
+    #portfolioNameInput {
+        /* background-color: orange; */
+        width: 240px;
+    }
+
+    .portfolioTypeText {
+        font-size: 20px;
+    }
+
+    .radioPortfolioTypeElement {
+        width: 200px;
+    }
+    .investmentHorizon select,
+    .investmentGoalSelect select {
+        /* background-color: rebeccapurple; */
+        width: 240px;
+    }
+
+    .investmentHorizon option,
+    .investmentGoalSelect option {
+        /* background-color: rebeccapurple; */
+        width: 80%;
+    }
+
+    .formPart1 {
+        /* background-color: red;   */
+        width: 100%; 
+    }
+
+    .errorRiskTolerance, .errorPortfolioTypeInput {
+        width: 150px;
+    }
+}
+
+/* for part2 */
+@media screen and (max-width: 1274px) {
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    header h1 {
+        font-size: 30px;
+    }
+
+    .formPart2 {
+        /* background-color: green; */
+        /* display: flex;
+        flex-direction: column; */
+        width: 100%;
+    }
+
+    .annualInvestmentCapacity, .lumpSumAmount, .monthlyContribution, .assets {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .annualCapacityText {
+        font-size: 19px;
+    }
+
+    .removeAsset {
+        align-self: flex-start;
+    }
+
+    .addAssetButton {
+        width: 80px;
+        padding: 3px;
+    }
+}
+
+/* for part3 */
+@media screen and (max-width: 1208px) {
+    .formPart3 {
+        /* background-color: green; */
+        /* display: flex;
+        flex-direction: column; */
+        width: 100%;
+    }
+
+    .automatedRebalancingContainer, .riskAcknowledgementContainer {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        /* gap: 25px; */
+    }
+
+    .automatedRebalancingContainer{
+        width: 258px;
+        font-size: 17px;
+        gap: 4px;
+    }
+
+    #riskAckLabel {
+        width: 167px;
+        font-size: 15px;
+        /* background-color: orange; */
+    }
+
+    .automatedRebalancingRadio {
+        display: flex;
+        justify-content: flex-start;
+        align-self: flex-start;
+    }
 }

@@ -1,4 +1,3 @@
-
 const previousPage = () => {
     if (document.getElementById('part1').style.display === 'none' && document.getElementById('part2').style.display === 'none' && document.getElementById('part3').style.display === '') {
 
@@ -13,6 +12,9 @@ const previousPage = () => {
     }
     else if (document.getElementById('part1').style.display === 'none' && document.getElementById('part2').style.display === '' && document.getElementById('part3').style.display === 'none') {
 
+        const previousButton = document.getElementById('prevButton')
+        previousButton.disabled = true
+
         document.getElementById('part1').style.display = '';
         document.getElementById('part2').style.display = 'none';
         // document.getElementById('part3').style.display = 'none';
@@ -23,6 +25,9 @@ const previousPage = () => {
 const nextPage = () => {
 
     if (document.getElementById('part1').style.display === '' && document.getElementById('part2').style.display === 'none' && document.getElementById('part3').style.display === 'none') {
+
+
+        const previousButton = document.getElementById('prevButton')
 
         validatePart1PortfolioName()
         validatePart1PortfolioType()
@@ -41,11 +46,12 @@ const nextPage = () => {
             document.getElementById('part1').style.display = 'none';
             document.getElementById('part2').style.display = ''
             document.getElementById('part3').style.display === 'none';
+            previousButton.disabled = false
 
         }
-        else {
-            alert('Please Fill all required fields')
-        }
+        // else {
+        //     alert('Please Fill all required fields')
+        // }
     }
 
     else if (document.getElementById('part1').style.display === 'none' && document.getElementById('part2').style.display === '' && document.getElementById('part3').style.display === 'none') {
@@ -90,15 +96,89 @@ const formSubmit = () => {
 
 }
 
+let assetId = 1
 const addAsset = () => {
+    assetId++
+    const newRow = document.createElement('div')
+    newRow.className = 'assets'
+    newRow.id = `asset-${assetId}`
+
+    newRow.innerHTML = `
+        <div class="assetClass">
+                                    <div class="assetLabel">
+                                        <label><b>Asset Class*</b></label>
+                                    </div>
+                                    <div class="assetDropdown">
+                                        <select name="assetClass" class="assetClassDropdown" id="assetClass${assetId}" onchange="autoSuggestSpecificFund('assetClass${assetId}', 'specificFundAuto${assetId}')">
+                                            <option value="">-- Select --</option>
+                                            <option value="Equity">Stocks</option>
+                                            <option value="Fixed Income">Bond</option>
+                                            <option value="Cash Equivalent">Cash</option>
+                                            <option value="REITs">Real Estate</option>
+                                            <option value="Foreign Exchange">Forex</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="percentageAllocation" id="percentageAllocation-${assetId}">
+                                    <!-- Input for Percentage Allocation -->
+                                    <div class="percentageAllocationLabel" style="font-size: 14px;">
+                                        <label><b>Percentage Allocation(%)*</b></label>
+                                    </div>
+                                    <div class="percentageAllocationContainer">
+                                        <input type="text" class="percentageAllocationInput" id="percentageAllocationInput-${assetId}" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
+                                    </div>
+                                </div>
+
+                                <div class="specificFund">
+                                    <!-- Input for specific fund -->
+                                    <div class="specificFundLabel">
+                                        <label><b>Specific Fund</b></label>
+                                    </div>
+                                    <div class="specificFundInput">
+                                        <input type="text" id="specificFundAuto${assetId}">
+                                    </div>
+                                </div>
+
+                                <div class="currentValue">
+                                    <!-- Input for current Value -->
+                                    <div class="currentValueLabel">
+                                        <label><b>Current Value</b></label>
+                                    </div>
+                                    <div class="currentValueInput">
+                                        <input type="text">
+                                    </div>
+                                </div>
+
+                                <div class="removeAsset">
+                                    <button onclick="removeAsset('asset-${assetId}')">🗑️</button>
+                                </div>
+    `
+
     const assetContainer = document.querySelector('.assetContainer')
-    const asset = document.querySelector('.assets')
-
-    const clone = asset.cloneNode(true)
-
-    assetContainer.appendChild(clone)
+    assetContainer.appendChild(newRow)
 }
 
+const removeAsset = (id) => {
+    const rowToRemove = document.getElementById(id)
+
+    if (rowToRemove && assetId > 1) {
+        rowToRemove.remove()
+        assetId--
+    }
+
+    // if (assetId == 1) {
+    //     const errorMessage = document.createElement("div")
+    //     errorMessage.className = 'errorPortfolioNameInput'
+    //     errorMessage.innerText = "This row cannot be removed"
+    //     errorMessage.style.color = "red"
+    //     rowToRemove.appendChild(errorMessage)
+    //     rowToRemove.style.display = 'flex'
+    //     // rowToRemove.style.flexDirection = 'column'
+    // }
+}
+
+// Validations for part 1 of the form
 // validate the portfolio name (input, required field)
 const validatePart1PortfolioName = () => {
 
@@ -110,7 +190,7 @@ const validatePart1PortfolioName = () => {
         checkError.remove();
     }
 
-    if (portfolioNameInput.value === '') {
+    if (portfolioNameInput.value.length < 0) {
         const errorMessage = document.createElement("div")
         errorMessage.className = 'errorPortfolioNameInput'
         errorMessage.innerText = "This is a required Field!"
@@ -119,16 +199,7 @@ const validatePart1PortfolioName = () => {
         return false
     }
 
-    if (!checkName(portfolioNameInput.value)){
-        const errorMessage = document.createElement("div")
-        errorMessage.className = 'errorPortfolioNameInput'
-        errorMessage.innerText = "Name cannot contain Numbers or Symbols!"
-        errorMessage.style.color = "red"
-        portfolioName.append(errorMessage)
-        return false
-    }
-
-    if (portfolioNameInput.value.length < 3) {
+    if (portfolioNameInput.value.length < 2) {
         const errorMessage = document.createElement("div")
         errorMessage.className = 'errorPortfolioNameInput'
         errorMessage.innerText = "atleast 3 characters required!"
@@ -137,26 +208,19 @@ const validatePart1PortfolioName = () => {
         return false
     }
 
+    if (!checkName(portfolioNameInput.value)) {
+        const errorMessage = document.createElement("div")
+        errorMessage.className = 'errorPortfolioNameInput'
+        errorMessage.innerText = "Name cannot contain Numbers or Symbols!"
+        errorMessage.style.color = "red"
+        portfolioName.append(errorMessage)
+        return false
+    }
+
+
     return true
 }
 
-// const removeError = (elementId) => {
-//     const element = document.getElementById(`${elementId}`)
-
-
-// }
-
-// setTimeout(() => {
-//     let elementInput = document.getElementById('portfolioNameInput')
-//     // const testing = () => {
-//     //     validatePart1PortfolioType()
-//     // }
-//     elementInput.addEventListener("click", validatePart1PortfolioType)
-// }, 1000);
-
-
-
-// Validations for part 1 of the form
 // validate the portfolio type (radio, required field)
 const validatePart1PortfolioType = () => {
 
@@ -283,23 +347,27 @@ const validatePart2AnnualInvestmentCapacity = () => {
         checkError.remove();
     }
 
-    if (annualInvestmentCapacityInput.value === '') {
+    if (annualInvestmentCapacityInput.value.length < 0) {
+
+        console.log(annualInvestmentCapacityInput.value.length)
         let errorMessage = document.createElement("div")
         errorMessage.className = 'errorAnnualInvestmentCapacityInput'
-        errorMessage.innerText = "This is a required Field!"
+        errorMessage.innerText = "must be more"
         errorMessage.style.color = "red"
         errorMessage.style.fontSize = '13.65px'
         annualInvestment.appendChild(errorMessage)
+
         return false
     }
 
-    if(!checkNumber(annualInvestmentCapacityInput.value) || annualInvestmentCapacityInput.value < 1) {
+    if ((!checkNumber(annualInvestmentCapacityInput.value) || annualInvestmentCapacityInput.value < 1) && annualInvestmentCapacityInput.value != '') {
         let errorMessage = document.createElement("div")
         errorMessage.className = 'errorAnnualInvestmentCapacityInput'
         errorMessage.innerText = "Invalid Input! Must be a number greater than 1!"
         errorMessage.style.color = "red"
-        errorMessage.style.fontSize = '13.65px'
+        errorMessage.style.fontSize = '12px'
         annualInvestment.appendChild(errorMessage)
+
         return false
     }
 
@@ -309,66 +377,156 @@ const validatePart2AnnualInvestmentCapacity = () => {
 // validate the Asset Class (dropdown, required field)
 const validatePart2AssetClass = () => {
 
-    const deleteButton = document.querySelector('.removeAsset')
+    let presence = true
 
-    const assetClass = document.getElementById('assetClassDropdown')
-    const assetDropdownContainer = document.querySelector('.assetDropdown')
+    const assets = document.querySelectorAll('.assets')
 
-    let checkError = document.querySelector('.errorAssetClass')
-    if (checkError) {
-        checkError.remove()
-    }
+    assets.forEach((row) => {
 
-    if (assetClass.value === '') {
-        const errorMessage = document.createElement('div')
-        errorMessage.className = 'errorAssetClass'
-        errorMessage.innerText = 'This is a required Field!'
-        errorMessage.style.color = 'red'
-        errorMessage.style.fontSize = '8px'
-        assetDropdownContainer.append(errorMessage)
+        const deleteButton = row.querySelector('.removeAsset')
+        const assetClass = row.querySelector('.assetClassDropdown')
+        const assetDropdownContainer = row.querySelector('.assetDropdown')
+        // const specificFundAuto = row.querySelector('.specificFundAuto')
 
-        deleteButton.style.alignSelf = 'center'
+        const checkError = row.querySelector('.errorAssetClass')
+        if (checkError) {
+            checkError.remove()
+        }
 
-        return false
-    }
+        if (assetClass.value == '') {
+            const errorMessage = document.createElement('div')
+            errorMessage.className = 'errorAssetClass'
+            errorMessage.innerText = 'This is a required field!'
+            errorMessage.style.color = 'red'
+            errorMessage.style.fontSize = '8px'
+            assetDropdownContainer.append(errorMessage)
 
-    return true
+            deleteButton.style.alignSelf = 'center'
+
+            presence = false
+        }
+
+    })
+
+    return presence
+}
+
+const autoSuggestSpecificFund = (assetId, specificFundId) => {
+
+    const specificFundInput = document.getElementById(specificFundId)
+    const assetChosen = document.getElementById(assetId)
+
+    specificFundInput.value = assetChosen.value
+
 }
 
 // validate the Percentage Allocation (input, required field)
 const validatePart2percentageAllocation = () => {
 
-    const percentageAllocationInput = document.getElementById("percentageAllocationInput")
-    const percentageAllocationContainer = document.querySelector(".percentageAllocationContainer")
+    let presence = true
 
-    let checkError = document.querySelector(".errorPercentageAllocation")
-    if (checkError) {
-        checkError.remove();
-    }
+    const assets = document.querySelectorAll('.assets')
 
-    if (percentageAllocationInput.value === '') {
-        const errorMessage = document.createElement("div")
-        errorMessage.className = 'errorPercentageAllocation'
-        errorMessage.innerText = "This is a required Field!"
-        errorMessage.style.color = "red"
-        errorMessage.style.fontSize = '13.65px'
-        percentageAllocationContainer.appendChild(errorMessage)
-        return false
-    }
+    assets.forEach((row) => {
 
-    if (percentageAllocationInput.value < 1 || percentageAllocationInput.value > 100) {
-        const errorMessage = document.createElement("div")
-        errorMessage.className = 'errorPercentageAllocation'
-        errorMessage.innerText = "Invalid Percentage!"
-        errorMessage.style.color = "red"
-        errorMessage.style.fontSize = '13.65px'
-        percentageAllocationContainer.appendChild(errorMessage)
-        return false
-    }
+        const deleteButton = row.querySelector('.removeAsset')
+        const percentageAllocationInput = row.querySelector('.percentageAllocationInput')
+        const percentageAllocation = row.querySelector('.percentageAllocation')
 
-    return true
+        const checkError = row.querySelector('.errorPercentageAllocation')
+        if (checkError) {
+            checkError.remove()
+        }
+
+        // if (percentageAllocationInput.value.length < 0) {
+        //     const errorMessage = document.createElement("div")
+        //     errorMessage.className = 'errorPercentageAllocation'
+        //     errorMessage.innerText = "This is a required Field!"
+        //     errorMessage.style.color = "red"
+        //     errorMessage.style.fontSize = '13.65px'
+        //     percentageAllocation.appendChild(errorMessage)
+        //     deleteButton.style.alignSelf = 'center'
+        //     presence = false
+        // }
+
+        if (percentageAllocationInput.value === '') {
+            const errorMessage = document.createElement("div")
+            errorMessage.className = 'errorPercentageAllocation'
+            errorMessage.innerText = "This is a required Field!"
+            errorMessage.style.color = "red"
+            errorMessage.style.fontSize = '13.65px'
+            percentageAllocation.appendChild(errorMessage)
+            deleteButton.style.alignSelf = 'center'
+            presence = false
+        }
+
+        else if (percentageAllocationInput.value < 1 || percentageAllocationInput.value > 100 || !checkNumber(percentageAllocationInput.value)) {
+            const errorMessage = document.createElement("div")
+            errorMessage.className = 'errorPercentageAllocation'
+            errorMessage.innerText = "Invalid Percentage!"
+            errorMessage.style.color = "red"
+            errorMessage.style.fontSize = '13.65px'
+            percentageAllocation.appendChild(errorMessage)
+            deleteButton.style.alignSelf = 'center'
+            presence = false
+        }
+    })
+
+    return presence
 
 }
+
+// const validatePart2percentageAllocation = (inputId, containerId, deleteId) => {
+
+//     let presence = true
+
+//     const assets = document.querySelectorAll('.assets')
+
+//     const deleteButton = document.getElementById(deleteId)
+//     const percentageAllocationInput = document.getElementById(inputId)
+//     const percentageAllocation = document.getElementById(containerId)
+
+//     const checkError = document.getElementById(`errorPercentageAllocation-${deleteId}`)
+//     if (checkError) {
+//         checkError.remove()
+//     }
+
+//     // if (percentageAllocationInput.value.length < 0) {
+//     //     const errorMessage = document.createElement("div")
+//     //     errorMessage.className = 'errorPercentageAllocation'
+//     //     errorMessage.innerText = "This is a required Field!"
+//     //     errorMessage.style.color = "red"
+//     //     errorMessage.style.fontSize = '13.65px'
+//     //     percentageAllocation.appendChild(errorMessage)
+//     //     deleteButton.style.alignSelf = 'center'
+//     //     presence = false
+//     // }
+
+//     if (percentageAllocationInput.value === '') {
+//         const errorMessage = document.createElement("div")
+//         errorMessage.className = `errorPercentageAllocation-${deleteId}`
+//         errorMessage.innerText = "This is a required Field!"
+//         errorMessage.style.color = "red"
+//         errorMessage.style.fontSize = '13.65px'
+//         percentageAllocation.appendChild(errorMessage)
+//         deleteButton.style.alignSelf = 'center'
+//         presence = false
+//     }
+
+//     else if (percentageAllocationInput.value < 1 || percentageAllocationInput.value > 100 || !checkNumber(percentageAllocationInput.value)) {
+//         const errorMessage = document.createElement("div")
+//         errorMessage.className = `errorPercentageAllocation-${deleteId}`
+//         errorMessage.innerText = "Invalid Percentage!"
+//         errorMessage.style.color = "red"
+//         errorMessage.style.fontSize = '13.65px'
+//         percentageAllocation.appendChild(errorMessage)
+//         deleteButton.style.alignSelf = 'center'
+//         presence = false
+//     }
+
+//     return presence
+
+// }
 
 
 // Validations for part 3 of the form
@@ -431,12 +589,12 @@ const validatePart3AckCheckBox = () => {
 }
 
 const checkName = (str) => {
-  const regex = /^[a-zA-Z\s]+$/;
-  return regex.test(str);
+    const regex = /^[a-zA-Z\s]+$/;
+    return regex.test(str);
 }
 
 const checkNumber = (str) => {
-  const regex1 = /^[1-9]+\.[0-9]+$/;
-  const regex2 = /^[1-9]+$/;
-  return regex1.test(str) || regex2.test(str); // Use the test() method to check for a match
+    const regex1 = /^[1-9]+\.[0-9]+$/;
+    const regex2 = /^[1-9]+$/;
+    return regex1.test(str) || regex2.test(str); // Use the test() method to check for a match
 }
