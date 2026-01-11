@@ -1,24 +1,72 @@
 * {
     padding: 0;
     margin: 0;
+    color: white;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, Courier, monospace;
 }
 
 header {
     height: 14vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    color: rgb(63, 61, 61);
+}
+
+header img {
+    height: 25px;
+    width: 25px;
 }
 
 body {
-    background-color: aliceblue;
+    background-image: linear-gradient(to right, #05347a, #00316a, #002e59, #002948, #022337);
 }
 
-footer {
-    height: 14vh;
-    width: 100vw;
-    /* background-color: aqua; */
-    background-color: rgb(13, 5, 75);
+.projectTitle {
+    font-size: 25px;
+    font-weight: 600;
+}
+
+.progressBar {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    gap: 9px;
+    margin-bottom: 20px;
+    align-items: center;
+    color: rgb(63, 61, 61);
+}
+
+.progress {
+    height: 27px;
+    width: 27px;
+
     display: flex;
     justify-content: center;
     align-items: center;
+
+    flex-direction: column;
+}
+
+.progress img {
+    height: 20px;
+    width: 20px;
+    border: 1.3px solid black;
+    padding: 8px;
+    border-radius: 7px;
+}
+
+.progress .progressText {
+    font-size: 9px;
+    text-align: center;
+}
+
+.progressLine {
+    background-color: black;
+    height: 1.5px;
+    width: 50px;
+    align-self: center;
 }
 
 .content {
@@ -28,162 +76,225 @@ footer {
     margin: 0 0 10px 0;
 }
 
+/* part 1 of the form */
 .part1 {
     width: 100%;
     height: 100%;
-    /* background-color: red; */
     display: flex;
     justify-content: space-evenly;
 }
 
 .formPart1 {
-    background-color: rgb(215, 228, 243);
     height: 100%;
-    width: 51%;
+    width: 47%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    padding: 0 4vw 0 4vw;
-    /* display: none; */
     border-radius: 20px;
-    padding: 24px;
-    gap: 24px
+    border: 2px solid rgb(28, 27, 27);
 }
 
-.formPart1 .portfolioName {
+.portfolioName {
     display: flex;
-    justify-content: space-between;
-    /* background-color: blue; */
-}
-
-#portfolioNameInput {
-    width: 20vw;
-}
-
-.formPart1 select {
-    width: 20vw;
-    /* background-color: blue; */
-    font-size: medium;
-}
-
-.radioPortfolioType,
-.riskToleranceRadio {
-    font-size: 23px;
-    /* background-color: brown; */
-    width: 20vw;
-
-
-}
-
-.radioPortfolioTypeElement,
-.riskToleranceRadioElement {
-    display: flex;
-    gap: 2vh;
-    /* justify-content: center; */
-}
-
-.portfolioName,
-.investmentGoalSelect,
-.investmentHorizon {
-    display: flex;
-    justify-content: space-between;
-}
-
-.portfolioName input,
-.investmentGoalSelect select,
-.investmentHorizon select {
-    height: 22px;
-    /* width: 250px; */
-}
-
-.portfolioType,
-.riskTolerance {
-    display: flex;
-    justify-content: space-between
-}
-
-.imagePart1 {
-    display: flex;
-    align-items: center;
-}
-
-.imagePart1 img {
-    height: 90%;
+    flex-direction: column;
+    gap: 2.5px;
+    font-size: 15px;
+    width: 88%;
+    margin: 24px 6%;
 }
 
 .portfolioInput {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* background-color: green; */
     font-size: small;
+    width: 100%;
+}
+
+#portfolioNameInput {
+    color: black;
+}
+
+.portfolioType,
+.riskTolerance {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin: 0px 6% 24px 6%;
+    gap: 2.5px;
+}
+
+.radioPortfolioType,
+.riskToleranceRadio {
+    display: flex;
+    justify-content: flex-start;
+    gap: 15px;
+}
+
+.radioPortfolioTypeElement,
+.riskToleranceRadioElement {
+    display: flex;
+}
+
+.portfolioTypeText,
+.riskToleranceText {
+    text-align: center;
+    font-size: 13px;
+    border: 1.5px solid black;
+    padding: 5px 9px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.radioPortfolioTypeElement input:checked+.portfolioTypeText,
+.riskToleranceRadioElement input:checked+.riskToleranceText {
+    background-color: rgb(7, 2, 32);
+}
+
+.investmentGoalSelect,
+.investmentHorizon {
+    display: flex;
+    flex-direction: column;
+    width: 88%;
+    padding: 0px 6% 24px 6%;
+    gap: 2.5px;
+}
+
+.investmentGoalDropdown,
+.investmentHorizonDropdown {
+    color: black;
+    width: 100%;
+}
+
+.investmentGoalDropdown select,
+.investmentHorizonDropdown select {
+    color: black;
+    width: 100%;
+}
+
+.investmentGoalDropdown option,
+.investmentHorizonDropdown option {
+    color: black;
+}
+
+.portfolioName input,
+.investmentGoalSelect select,
+.investmentHorizon select {
+    height: 22px;
 }
 
 .formTitle {
-    font-size: 23px;
+    font-size: 15px;
     font-weight: 600;
 }
 
+
+/* part 2 of the form  */
 .part2 {
     width: 100%;
     height: 100%;
-    /* background-color: red; */
     display: flex;
     justify-content: space-evenly;
 }
 
 .formPart2 {
-    /* background-color: grey; */
-    background-color: rgb(215, 228, 243);
-    /* height: 100%; */
-    width: 51%;
+    height: 100%;
+    display: flex;
+    width: 47%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    border-radius: 20px;
+    border: 2px solid rgb(28, 27, 27);
+}
+
+.annualInvestmentCapacity {
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
-    /* justify-content: flex-start; */
-    padding: 0 2vw 0 2vw;
-    /* display: none; */
-    font-size: 20px;
-    border-radius: 20px;
-    padding: 24px;
-    gap: 24px
+    gap: 2.5px;
+    font-size: 15px;
+    width: 88%;
+    margin: 24px 6%;
 }
 
-.addAsset {
-    /* background-color: pink; */
+.annualCapacityContainer {
     display: flex;
-    justify-content: flex-start;
+    gap: 2.5px;
 }
 
-.addAssetButton {
-    width: 12%;
-    border-radius: 10px;
-    /* border: 2px solid aliceblue; */
+.annualCapacityContainer select {
+    height: 100%;
+    border-radius: 8px;
+    color: black;
 }
 
-.annualInvestmentCapacity,
+.annualCapacityContainer option {
+    color: black;
+}
+
+.annualCapacityContainer input {
+    width: 100%;
+    height: 22px;
+    color: black;
+}
+
+.annualCapacityInput {
+    width: 100%;
+}
+
+.lumpMonthly {
+    display: flex;
+    gap: 1.5%;
+    font-size: 15px;
+    width: 88%;
+    margin: 0px 6% 24px 6%;
+    /* background-color: green; */
+}
+
 .lumpSumAmount,
 .monthlyContribution {
     display: flex;
-    justify-content: space-between;
-    /* align-items: center; */
-    align-items: flex-start;
+    flex-direction: column;
+    /* background-color: grey; */
+    width: 50%;
 }
 
-.annualInvestmentCapacity input,
 .lumpSumAmount input,
 .monthlyContribution input {
     height: 22px;
-    width: 250px;
+    width: 97%;
+    color: black;
+    /* width: 250px; */
+}
+
+.assetSubheading {
+    font-size: 11px;
+}
+
+.assetDiv {
+    /* background-color: red; */
+    /* width: 88%; */
+    margin: 0px 6% 1.5% 6%;
 }
 
 .assets {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     text-align: left;
-    gap: 10px;
-    /* background-color: blue; */
-    /* align-items: center;     */
+    gap: 3px;
+}
+
+.assetDropdown select,
+.assetDropdown option,
+.percentageAllocationInput,
+.specificFundInputAuto,
+.getCurrentValue {
+    color: black;
+}
+
+.deleteAssetDiv {
+    display: flex;
+    gap: 4px;
+    height: 22px;
 }
 
 .removeAsset {
@@ -205,13 +316,6 @@ footer {
     border: none;
 }
 
-.assetClass,
-.percentageAllocation,
-.specificFund,
-.currentValue {
-    font-size: medium;
-}
-
 .assets button {
     height: 4vh;
 }
@@ -221,82 +325,103 @@ footer {
     align-items: end;
 }
 
-.imagePart2 {
+.addAsset {
+    /* background-color: pink; */
     display: flex;
-    align-items: center;
+    justify-content: flex-start;
 }
 
-.imagePart2 img {
-    height: 90%;
+.addAssetButton {
+    /* background-color: green; */
+    color: black;
+    padding: 4px 5px;
+    border: 1.5px solid black;
+    border-radius: 7px;
+    margin-left: 6%;
+    margin-bottom: 24px;
 }
 
-.annualCapacityContainer {
+.investmentStyle {
+    margin: 0px 6% 24px 6%;
     display: flex;
     flex-direction: column;
+    gap: 2.5px;
 }
 
+.checkBoxInvestment {
+    display: flex;
+    gap: 3px;
+}
+
+.investmentStyleCheckBox {
+    text-align: center;
+    font-size: 13px;
+    border: 1.5px solid black;
+    padding: 5px 9px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.checkBoxInvestment input:checked + .investmentStyleCheckBox {
+    background-color: rgb(7, 2, 32);
+}
+
+/* part 3 of the form */
 .part3 {
     width: 100%;
     height: 100%;
-    /* background-color: red; */
     display: flex;
     justify-content: space-evenly;
 }
 
 .formPart3 {
-    /* background-color: grey; */
-    background-color: rgb(215, 228, 243);
     height: 100%;
-    width: 51%;
+    width: 47%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    padding: 0 2vw 0 2vw;
-    /* display: none; */
-    font-size: large;
     border-radius: 20px;
-    padding: 24px;
-    gap: 24px
+    border: 2px solid rgb(28, 27, 27);
 }
 
-.automatedRebalancing {
-    display: flex;
-    justify-content: space-between;
+.automatedRebalancing,
+.taxSavingPref {
+    margin: 24px 4%;
     /* background-color: orange; */
     width: 60%;
-    flex-direction: column;
-}
-
-.automatedRebalancingContainer {
     display: flex;
     justify-content: flex-start;
-    /* background-color: grey; */
     gap: 10px;
-    width: 100%;
-    align-items: flex-end;
+    /* flex-direction: column; */
 }
 
-.taxSavingPref {
-    font-size: 18px;
-    /* background-color: rebeccapurple; */
+.automatedRebalancingText,
+.taxSavingText {
+    text-align: center;
+    font-size: 13px;
+    border: 1.5px solid black;
+    padding: 5px 9px;
+    border-radius: 10px;
+    cursor: pointer;
 }
+
+.automatedRebalancingRadio input:checked+.automatedRebalancingText,
+.taxSavingCheck input:checked+.taxSavingText {
+    background-color: rgb(7, 2, 32);
+}
+
+/* .taxSavingPref {
+    font-size: 18px;
+} */
 
 .riskAcknowledgementText {
-    font-size: 17px;
+    font-size: 15px;
     /* background-color: rebeccapurple; */
 }
 
 .riskAckCheck {
     display: flex;
-}
-
-.imagePart3 {
-    display: flex;
-    align-items: center;
-}
-
-.imagePart3 img {
-    height: 90%;
+    gap: 2px;
 }
 
 .financialGoals {
@@ -304,26 +429,32 @@ footer {
     flex-direction: column;
     gap: 1vh;
     justify-content: center;
+    margin: 24px 4%;
+    width: 58%;
     /* background-color: green; */
+}
+
+.financialGoals textarea {
+    width: 100%;
+    padding: 6px;
 }
 
 .riskAcknowledgementContainer {
     display: flex;
-    /* flex-wrap: nowrap; */
-    /* background-color: red; */
-    justify-content: space-around;
+    justify-content: flex-start;
     align-items: center;
     gap: 6px;
+    margin: 24px 4%;
 }
 
 #riskAckLabel {
-    width: 22.9vw;
-    /* background-color: blue; */
+    width: 12.9vw;
 }
 
 #riskAckDesc {
-    text-align: center;
-    font-size: 14px;
+    text-align: left;
+    font-size: 12px;
+    /* width: 45%; */
     /* background-color: orange; */
 }
 
@@ -348,7 +479,7 @@ footer {
 .buttonContainer {
     display: flex;
     /* background-color: red; */
-    width: 51%;
+    width: 47%;
     justify-content: space-between;
     margin: auto;
 }
@@ -359,7 +490,7 @@ footer {
 }
 
 /* for part1 */
-@media screen and (max-width: 916px) {
+/* @media screen and (max-width: 916px) {
 
     header {
         display: flex;
@@ -375,18 +506,14 @@ footer {
     .portfolioType,
     .investmentHorizon,
     .riskTolerance,
-    .investmentGoalSelect 
-        {
+    .investmentGoalSelect {
         flex-direction: column;
-        /* align-items: center; */
         font-size: xx-small;
         width: 100%;
-        /* background-color: green; */
         gap: 1px;
     }
 
     #portfolioNameInput {
-        /* background-color: orange; */
         width: 240px;
     }
 
@@ -397,30 +524,29 @@ footer {
     .radioPortfolioTypeElement {
         width: 200px;
     }
+
     .investmentHorizon select,
     .investmentGoalSelect select {
-        /* background-color: rebeccapurple; */
         width: 240px;
     }
 
     .investmentHorizon option,
     .investmentGoalSelect option {
-        /* background-color: rebeccapurple; */
         width: 80%;
     }
 
     .formPart1 {
-        /* background-color: red;   */
-        width: 100%; 
+        width: 100%;
     }
 
-    .errorRiskTolerance, .errorPortfolioTypeInput {
+    .errorRiskTolerance,
+    .errorPortfolioTypeInput {
         width: 150px;
     }
-}
+} */
 
 /* for part2 */
-@media screen and (max-width: 1274px) {
+/* @media screen and (max-width: 1274px) {
 
     header {
         display: flex;
@@ -433,13 +559,13 @@ footer {
     }
 
     .formPart2 {
-        /* background-color: green; */
-        /* display: flex;
-        flex-direction: column; */
         width: 100%;
     }
 
-    .annualInvestmentCapacity, .lumpSumAmount, .monthlyContribution, .assets {
+    .annualInvestmentCapacity,
+    .lumpSumAmount,
+    .monthlyContribution,
+    .assets {
         display: flex;
         flex-direction: column;
     }
@@ -456,25 +582,22 @@ footer {
         width: 80px;
         padding: 3px;
     }
-}
+} */
 
 /* for part3 */
-@media screen and (max-width: 1208px) {
+/* @media screen and (max-width: 1208px) {
     .formPart3 {
-        /* background-color: green; */
-        /* display: flex;
-        flex-direction: column; */
         width: 100%;
     }
 
-    .automatedRebalancingContainer, .riskAcknowledgementContainer {
+    .automatedRebalancingContainer,
+    .riskAcknowledgementContainer {
         display: flex;
         flex-direction: column;
         width: 100%;
-        /* gap: 25px; */
     }
 
-    .automatedRebalancingContainer{
+    .automatedRebalancingContainer {
         width: 258px;
         font-size: 17px;
         gap: 4px;
@@ -483,7 +606,6 @@ footer {
     #riskAckLabel {
         width: 167px;
         font-size: 15px;
-        /* background-color: orange; */
     }
 
     .automatedRebalancingRadio {
@@ -491,8 +613,12 @@ footer {
         justify-content: flex-start;
         align-self: flex-start;
     }
+} */
+
+input {
+    padding-left: 6px;
 }
 
-input{
-    padding-left: 6px;
+.wholeScreen {
+    display: flex;
 }

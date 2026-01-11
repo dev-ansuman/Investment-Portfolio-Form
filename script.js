@@ -1,9 +1,16 @@
 const previousPage = () => {
+    const progressBar1 = document.getElementById('progressBar1')
+    const assetAllocationLogo = document.getElementById('assetAllocationLogo')
+    const progressBar2 = document.getElementById('progressBar2')
+    const preferenceLogo = document.getElementById('preferencesLogo')
+
     if (document.getElementById('part1').style.display === 'none' && document.getElementById('part2').style.display === 'none' && document.getElementById('part3').style.display === '') {
 
         // document.getElementById('part1').style.display = 'none';
         document.getElementById('part2').style.display = ''
         document.getElementById('part3').style.display = 'none';
+        preferenceLogo.style.backgroundColor = ''
+        progressBar2.style.backgroundColor = 'black'
         const button = document.getElementById('forward')
         button.style.display = ''
         const submitButton = document.getElementById('submitButton')
@@ -17,12 +24,18 @@ const previousPage = () => {
 
         document.getElementById('part1').style.display = '';
         document.getElementById('part2').style.display = 'none';
+        assetAllocationLogo.style.backgroundColor = ''
+        progressBar1.style.backgroundColor = 'black'
         // document.getElementById('part3').style.display = 'none';
 
     }
 }
 
 const nextPage = () => {
+    const progressBar1 = document.getElementById('progressBar1')
+    const assetAllocationLogo = document.getElementById('assetAllocationLogo')
+    const progressBar2 = document.getElementById('progressBar2')
+    const preferenceLogo = document.getElementById('preferencesLogo')
 
     if (document.getElementById('part1').style.display === '' && document.getElementById('part2').style.display === 'none' && document.getElementById('part3').style.display === 'none') {
 
@@ -46,6 +59,8 @@ const nextPage = () => {
             document.getElementById('part1').style.display = 'none';
             document.getElementById('part2').style.display = ''
             document.getElementById('part3').style.display === 'none';
+            progressBar1.style.backgroundColor = 'whitesmoke'
+            assetAllocationLogo.style.backgroundColor = 'whitesmoke'
             previousButton.disabled = false
 
         }
@@ -68,6 +83,8 @@ const nextPage = () => {
             document.getElementById('part1').style.display === 'none';
             document.getElementById('part2').style.display = 'none';
             document.getElementById('part3').style.display = '';
+            progressBar2.style.backgroundColor = 'whitesmoke'
+            preferenceLogo.style.backgroundColor = 'whitesmoke'
             const button = document.getElementById('forward')
             button.style.display = 'none'
             const submitButton = document.getElementById('submitButton')
@@ -108,7 +125,7 @@ const addAsset = () => {
     newRow.innerHTML = `
         <div class="assetClass">
                                     <div class="assetLabel">
-                                        <label><b>Asset Class*</b></label>
+                                        <label class="assetSubheading">#${assetId}. Asset Class*</label>
                                     </div>
                                     <div class="assetDropdown">
                                         <select name="assetClass" class="assetClassDropdown" id="assetClass${assetId}" onchange="autoSuggestSpecificFund('assetClass${assetId}', 'specificFundAuto${assetId}')">
@@ -124,8 +141,8 @@ const addAsset = () => {
 
                                 <div class="percentageAllocation" id="percentageAllocation-${assetId}">
                                     <!-- Input for Percentage Allocation -->
-                                    <div class="percentageAllocationLabel" style="font-size: 14px;">
-                                        <label><b>Percentage Allocation(%)*</b></label>
+                                    <div class="percentageAllocationLabel">
+                                        <label class="assetSubheading">Percentage Allocation(%)*</label>
                                     </div>
                                     <div class="percentageAllocationContainer">
                                         <input type="number" class="percentageAllocationInput" id="percentageAllocationInput-${assetId}" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
@@ -135,7 +152,7 @@ const addAsset = () => {
                                 <div class="specificFund">
                                     <!-- Input for specific fund -->
                                     <div class="specificFundLabel">
-                                        <label><b>Specific Fund</b></label>
+                                        <label class="assetSubheading">Specific Fund</label>
                                     </div>
                                     <div class="specificFundInput">
                                         <input type="text" id="specificFundAuto${assetId}">
@@ -145,15 +162,18 @@ const addAsset = () => {
                                 <div class="currentValue">
                                     <!-- Input for current Value -->
                                     <div class="currentValueLabel">
-                                        <label><b>Current Value</b></label>
+                                        <label class="assetSubheading">Current Value</label>
                                     </div>
-                                    <div class="currentValueInput">
-                                        <input type="number" placeholder="INR">
+                                    <div class="deleteAssetDiv">
+                                        <div class="currentValueInput">
+                                            <input type="number" placeholder="INR">
+                                        </div>
+                                        <div class="removeAsset">
+                                            <button onclick="removeAsset('asset-${assetId}')">🗑️</button>
+                                        </div>
                                     </div>
-                                </div>
 
-                                <div class="removeAsset">
-                                    <button onclick="removeAsset('asset-${assetId}')">🗑️</button>
+
                                 </div>
     `
 
@@ -227,7 +247,7 @@ const validatePart1PortfolioName = () => {
 const validatePart1PortfolioType = () => {
 
     const portfolioTypeInput = document.getElementsByName("portfolioType")
-    const radioPortfolioType = document.querySelector(".radioPortfolioType")
+    const radioPortfolioType = document.querySelector(".portfolioType")
 
     let checkError = document.querySelector('.errorPortfolioTypeInput')
     if (checkError) {
@@ -305,7 +325,7 @@ const validatePart1InvestmentHorizon = () => {
 const validatePart1RiskTolerance = () => {
 
     const riskToleranceInput = document.getElementsByName("riskTolerance")
-    const riskToleranceTypes = document.querySelector(".riskToleranceRadio")
+    const riskToleranceTypes = document.querySelector(".riskTolerance")
 
     let checkError = document.querySelector('.errorRiskTolerance')
     if (checkError) {
@@ -349,8 +369,6 @@ const validatePart2AnnualInvestmentCapacity = () => {
         checkError.remove();
     }
 
-    console.log('some value', annualInvestmentCapacityInput.value)
-
     if (annualInvestmentCapacityInput.value == '') {
 
         console.log(annualInvestmentCapacityInput.value.length)
@@ -359,7 +377,7 @@ const validatePart2AnnualInvestmentCapacity = () => {
         errorMessage.innerText = "This is a required field!"
         errorMessage.style.color = "red"
         errorMessage.style.fontSize = '13.65px'
-        annualInvestment.appendChild(errorMessage)
+        annualInvestment.append(errorMessage)
 
         return false
     }
@@ -382,7 +400,7 @@ const validatePart2AnnualInvestmentCapacity = () => {
         errorMessage.innerText = "Invalid Input! Must be a number greater than 1!"
         errorMessage.style.color = "red"
         errorMessage.style.fontSize = '12px'
-        annualInvestment.appendChild(errorMessage)
+        annualInvestment.append(errorMessage)
 
         return false
     }
