@@ -1,7 +1,6 @@
 * {
     padding: 0;
     margin: 0;
-    color: white;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif, Courier, monospace;
 }
 
@@ -20,7 +19,13 @@ header img {
 }
 
 body {
-    background-image: linear-gradient(to right, #05347a, #00316a, #002e59, #002948, #022337);
+    background-color: #eefdf5;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .projectTitle {
@@ -52,10 +57,12 @@ body {
 .progress img {
     height: 20px;
     width: 20px;
-    border: 1.3px solid black;
+    /* border: 1.3px solid black; */
+    background-color: rgb(203, 230, 217);
     padding: 8px;
     border-radius: 7px;
 }
+
 
 .progress .progressText {
     font-size: 9px;
@@ -85,13 +92,15 @@ body {
 }
 
 .formPart1 {
+    background-color: white;
     height: 100%;
-    width: 47%;
+    width: 48%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     border-radius: 20px;
-    border: 2px solid rgb(28, 27, 27);
+    border: 1px solid #00bc7d(28, 27, 27);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
 }
 
 .portfolioName {
@@ -100,7 +109,8 @@ body {
     gap: 2.5px;
     font-size: 15px;
     width: 88%;
-    margin: 24px 6%;
+    margin: 19px 6%;
+    /* background-color: red; */
 }
 
 .portfolioInput {
@@ -111,81 +121,81 @@ body {
     width: 100%;
 }
 
-#portfolioNameInput {
-    color: black;
-}
-
 .portfolioType,
 .riskTolerance {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    margin: 0px 6% 24px 6%;
+    margin: 0px 6% 19px 6%;
     gap: 2.5px;
+}
+
+.riskTolerance {
+    margin: 0px 6% 24px 6%;
 }
 
 .radioPortfolioType,
 .riskToleranceRadio {
     display: flex;
     justify-content: flex-start;
-    gap: 15px;
+    gap: 12px;
 }
 
 .radioPortfolioTypeElement,
 .riskToleranceRadioElement {
     display: flex;
+    width: 18.1%;
+    /* background-color: rebeccapurple; */
 }
 
 .portfolioTypeText,
 .riskToleranceText {
-    text-align: center;
+    /* text-align: center; */
     font-size: 13px;
-    border: 1.5px solid black;
+    /* border: 1px solid grey; */
+    border: 1px solid rgb(97, 95, 95);
+    color: rgb(97, 95, 95);
+    ;
     padding: 5px 9px;
     border-radius: 10px;
     cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .radioPortfolioTypeElement input:checked+.portfolioTypeText,
 .riskToleranceRadioElement input:checked+.riskToleranceText {
-    background-color: rgb(7, 2, 32);
+    background-color: #42e0ae;
+    border: 1px solid black;
+    color: black;
+
 }
 
-.investmentGoalSelect,
+.investment {
+    display: flex;
+    gap: 10px;
+}
+
+.investmentGoalSelect {
+    display: flex;
+    flex-direction: column;
+    width: 88%;
+    padding: 0px 0px 19px 6%;
+    gap: 2.5px;
+}
+
 .investmentHorizon {
     display: flex;
     flex-direction: column;
     width: 88%;
-    padding: 0px 6% 24px 6%;
+    padding: 0px 6% 19px 0px;
     gap: 2.5px;
 }
 
-.investmentGoalDropdown,
-.investmentHorizonDropdown {
-    color: black;
+#investmentHorizon {
     width: 100%;
-}
-
-.investmentGoalDropdown select,
-.investmentHorizonDropdown select {
-    color: black;
-    width: 100%;
-}
-
-.investmentGoalDropdown option,
-.investmentHorizonDropdown option {
-    color: black;
-}
-
-.portfolioName input,
-.investmentGoalSelect select,
-.investmentHorizon select {
-    height: 22px;
-}
-
-.formTitle {
-    font-size: 15px;
-    font-weight: 600;
 }
 
 
@@ -198,13 +208,15 @@ body {
 }
 
 .formPart2 {
+    background-color: white;
     height: 100%;
     display: flex;
-    width: 47%;
+    width: 48%;
     flex-direction: column;
     justify-content: space-evenly;
     border-radius: 20px;
-    border: 2px solid rgb(28, 27, 27);
+    border: 1px solid #00bc7d(28, 27, 27);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2)
 }
 
 .annualInvestmentCapacity {
@@ -213,10 +225,11 @@ body {
     gap: 2.5px;
     font-size: 15px;
     width: 88%;
-    margin: 24px 6%;
+    margin: 24px 6% 19px 6%;
 }
 
 .annualCapacityContainer {
+    width: 100%;
     display: flex;
     gap: 2.5px;
 }
@@ -224,30 +237,22 @@ body {
 .annualCapacityContainer select {
     height: 100%;
     border-radius: 8px;
-    color: black;
-}
-
-.annualCapacityContainer option {
-    color: black;
-}
-
-.annualCapacityContainer input {
-    width: 100%;
-    height: 22px;
-    color: black;
 }
 
 .annualCapacityInput {
     width: 100%;
 }
 
+.annualCapacityInput input {
+    width: 100%;
+}
+
 .lumpMonthly {
     display: flex;
-    gap: 1.5%;
+    gap: 10px;
     font-size: 15px;
     width: 88%;
-    margin: 0px 6% 24px 6%;
-    /* background-color: green; */
+    margin: 0px 6% 19px 6%;
 }
 
 .lumpSumAmount,
@@ -256,14 +261,6 @@ body {
     flex-direction: column;
     /* background-color: grey; */
     width: 50%;
-}
-
-.lumpSumAmount input,
-.monthlyContribution input {
-    height: 22px;
-    width: 97%;
-    color: black;
-    /* width: 250px; */
 }
 
 .assetSubheading {
@@ -281,14 +278,6 @@ body {
     justify-content: flex-start;
     text-align: left;
     gap: 3px;
-}
-
-.assetDropdown select,
-.assetDropdown option,
-.percentageAllocationInput,
-.specificFundInputAuto,
-.getCurrentValue {
-    color: black;
 }
 
 .deleteAssetDiv {
@@ -326,44 +315,49 @@ body {
 }
 
 .addAsset {
-    /* background-color: pink; */
     display: flex;
     justify-content: flex-start;
 }
 
 .addAssetButton {
-    /* background-color: green; */
+    font-size: 0.7em;
+    background-color: #42e0ae;
     color: black;
     padding: 4px 5px;
-    border: 1.5px solid black;
+    border: none;
     border-radius: 7px;
     margin-left: 6%;
-    margin-bottom: 24px;
+    margin-bottom: 19px;
 }
 
 .investmentStyle {
     margin: 0px 6% 24px 6%;
     display: flex;
     flex-direction: column;
-    gap: 2.5px;
+    gap: 5px;
 }
 
 .checkBoxInvestment {
+    /* background-color: rebeccapurple; */
     display: flex;
-    gap: 3px;
+    justify-content: flex-start;
+    gap: 5px;
 }
 
 .investmentStyleCheckBox {
     text-align: center;
     font-size: 13px;
-    border: 1.5px solid black;
+    color: rgb(97, 95, 95);
+    border: 1px solid rgb(97, 95, 95);
     padding: 5px 9px;
     border-radius: 10px;
     cursor: pointer;
 }
 
-.checkBoxInvestment input:checked + .investmentStyleCheckBox {
-    background-color: rgb(7, 2, 32);
+.checkBoxInvestment input:checked+.investmentStyleCheckBox {
+    background-color: #42e0ae;
+    border: 1px solid black;
+    color: black;
 }
 
 /* part 3 of the form */
@@ -375,31 +369,50 @@ body {
 }
 
 .formPart3 {
+    background-color: white;
     height: 100%;
-    width: 47%;
+    width: 48%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     border-radius: 20px;
-    border: 2px solid rgb(28, 27, 27);
+    border: 1px solid #00bc7d(28, 27, 27);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding-bottom: 24px;
 }
 
-.automatedRebalancing,
-.taxSavingPref {
-    margin: 24px 4%;
-    /* background-color: orange; */
-    width: 60%;
+.optContainer {
+    margin: 24px 6% 0px 6%;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    gap: 10px;
+    /* background-color: red; */
+}
+
+.automatedRebalancing {
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     gap: 10px;
-    /* flex-direction: column; */
+    /* background-color: pink; */
+}
+
+.taxSavingPref {
+    margin: 19px 6% 0px 6%;
+    /* width: 60%; */
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    /* background-color: green; */
 }
 
 .automatedRebalancingText,
 .taxSavingText {
     text-align: center;
     font-size: 13px;
-    border: 1.5px solid black;
+    color: rgb(97, 95, 95);
+    border: 1px solid rgb(97, 95, 95);
     padding: 5px 9px;
     border-radius: 10px;
     cursor: pointer;
@@ -407,12 +420,25 @@ body {
 
 .automatedRebalancingRadio input:checked+.automatedRebalancingText,
 .taxSavingCheck input:checked+.taxSavingText {
-    background-color: rgb(7, 2, 32);
+    background-color: #42e0ae;
+    border: 1px solid black;
+    color: black;
 }
 
-/* .taxSavingPref {
-    font-size: 18px;
-} */
+.financialGoals {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    justify-content: center;
+    margin: 19px 6% 0px 6%;
+    width: 87.5%;
+}
+
+.financialGoals textarea {
+    width: 100%;
+    border: 1px solid rgb(97, 95, 95);
+    background-color: rgb(248, 248, 248);
+}
 
 .riskAcknowledgementText {
     font-size: 15px;
@@ -424,27 +450,12 @@ body {
     gap: 2px;
 }
 
-.financialGoals {
-    display: flex;
-    flex-direction: column;
-    gap: 1vh;
-    justify-content: center;
-    margin: 24px 4%;
-    width: 58%;
-    /* background-color: green; */
-}
-
-.financialGoals textarea {
-    width: 100%;
-    padding: 6px;
-}
-
 .riskAcknowledgementContainer {
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 6px;
-    margin: 24px 4%;
+    margin: 19px 6% 0px 6%;
 }
 
 #riskAckLabel {
@@ -452,10 +463,8 @@ body {
 }
 
 #riskAckDesc {
-    text-align: left;
+    text-align: center;
     font-size: 12px;
-    /* width: 45%; */
-    /* background-color: orange; */
 }
 
 .submitButton {
@@ -487,6 +496,15 @@ body {
 .errorDiv {
     font-size: 13.65px;
     color: transparent;
+}
+
+#forward {
+    background-color: #42e0ae;
+    border: none;
+}
+
+#prevButton {
+    border: 1px solid;
 }
 
 /* for part1 */
@@ -621,4 +639,26 @@ input {
 
 .wholeScreen {
     display: flex;
+}
+
+.required {
+    color: red;
+}
+
+.formTitle {
+    font-size: 15px;
+    font-weight: 600;
+}
+
+button:disabled {
+    cursor: not-allowed;
+}
+
+.input {
+    /* border: 1px solid green; */
+    border: 1px solid rgb(97, 95, 95);
+    border-radius: 6px;
+    background-color: rgb(248, 248, 248);
+    height: 29px;
+    width: 100%;
 }

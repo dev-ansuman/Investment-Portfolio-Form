@@ -1,4 +1,5 @@
 const previousPage = () => {
+    const investmentDetailLogo = document.getElementById('investmentDetailLogo')
     const progressBar1 = document.getElementById('progressBar1')
     const assetAllocationLogo = document.getElementById('assetAllocationLogo')
     const progressBar2 = document.getElementById('progressBar2')
@@ -9,6 +10,8 @@ const previousPage = () => {
         // document.getElementById('part1').style.display = 'none';
         document.getElementById('part2').style.display = ''
         document.getElementById('part3').style.display = 'none';
+
+        assetAllocationLogo.src = './images/asset.svg'
         preferenceLogo.style.backgroundColor = ''
         progressBar2.style.backgroundColor = 'black'
         const button = document.getElementById('forward')
@@ -17,6 +20,7 @@ const previousPage = () => {
         submitButton.style.display = 'none'
 
     }
+
     else if (document.getElementById('part1').style.display === 'none' && document.getElementById('part2').style.display === '' && document.getElementById('part3').style.display === 'none') {
 
         const previousButton = document.getElementById('prevButton')
@@ -24,6 +28,8 @@ const previousPage = () => {
 
         document.getElementById('part1').style.display = '';
         document.getElementById('part2').style.display = 'none';
+
+        investmentDetailLogo.src = './images/details.svg'
         assetAllocationLogo.style.backgroundColor = ''
         progressBar1.style.backgroundColor = 'black'
         // document.getElementById('part3').style.display = 'none';
@@ -32,10 +38,13 @@ const previousPage = () => {
 }
 
 const nextPage = () => {
+    const investmentDetailLogo = document.getElementById('investmentDetailLogo')
     const progressBar1 = document.getElementById('progressBar1')
     const assetAllocationLogo = document.getElementById('assetAllocationLogo')
+    const assetAllocationProgresstext = document.getElementById('assetAllocationProgresstext')
     const progressBar2 = document.getElementById('progressBar2')
     const preferenceLogo = document.getElementById('preferencesLogo')
+    const preferenceProgressText = document.getElementById('preferenceProgressText')
 
     if (document.getElementById('part1').style.display === '' && document.getElementById('part2').style.display === 'none' && document.getElementById('part3').style.display === 'none') {
 
@@ -59,8 +68,12 @@ const nextPage = () => {
             document.getElementById('part1').style.display = 'none';
             document.getElementById('part2').style.display = ''
             document.getElementById('part3').style.display === 'none';
-            progressBar1.style.backgroundColor = 'whitesmoke'
-            assetAllocationLogo.style.backgroundColor = 'whitesmoke'
+
+            investmentDetailLogo.src = './images/tick.svg'
+            progressBar1.style.backgroundColor = '#42e0ae'
+            assetAllocationLogo.style.backgroundColor = '#42e0ae'
+            assetAllocationProgresstext.style.color = '#127656'
+            assetAllocationLogo.style.border = 'none'
             previousButton.disabled = false
 
         }
@@ -83,11 +96,16 @@ const nextPage = () => {
             document.getElementById('part1').style.display === 'none';
             document.getElementById('part2').style.display = 'none';
             document.getElementById('part3').style.display = '';
-            progressBar2.style.backgroundColor = 'whitesmoke'
-            preferenceLogo.style.backgroundColor = 'whitesmoke'
+
+            assetAllocationLogo.src = './images/tick.svg'
+            progressBar2.style.backgroundColor = '#42e0ae'
+            preferenceLogo.style.backgroundColor = '#42e0ae'
+            preferenceProgressText.color = ''
             const button = document.getElementById('forward')
             button.style.display = 'none'
             const submitButton = document.getElementById('submitButton')
+            submitButton.style.backgroundColor = '#42e0ae'
+            submitButton.style.border = 'none'
             submitButton.style.display = ''
         }
         // else {
@@ -125,7 +143,7 @@ const addAsset = () => {
     newRow.innerHTML = `
         <div class="assetClass">
                                     <div class="assetLabel">
-                                        <label class="assetSubheading">#${assetId}. Asset Class*</label>
+                                        <label class="assetSubheading">Asset Class <span class="required">*</span></label>
                                     </div>
                                     <div class="assetDropdown">
                                         <select name="assetClass" class="assetClassDropdown" id="assetClass${assetId}" onchange="autoSuggestSpecificFund('assetClass${assetId}', 'specificFundAuto${assetId}')">
@@ -142,7 +160,7 @@ const addAsset = () => {
                                 <div class="percentageAllocation" id="percentageAllocation-${assetId}">
                                     <!-- Input for Percentage Allocation -->
                                     <div class="percentageAllocationLabel">
-                                        <label class="assetSubheading">Percentage Allocation(%)*</label>
+                                        <label class="assetSubheading">Percentage Allocation(%) <span class="required">*</span></label>
                                     </div>
                                     <div class="percentageAllocationContainer">
                                         <input type="number" class="percentageAllocationInput" id="percentageAllocationInput-${assetId}" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
@@ -377,7 +395,7 @@ const validatePart2AnnualInvestmentCapacity = () => {
         errorMessage.innerText = "This is a required field!"
         errorMessage.style.color = "red"
         errorMessage.style.fontSize = '13.65px'
-        annualInvestment.append(errorMessage)
+        annualInvestment.after(errorMessage)
 
         return false
     }
@@ -400,7 +418,7 @@ const validatePart2AnnualInvestmentCapacity = () => {
         errorMessage.innerText = "Invalid Input! Must be a number greater than 1!"
         errorMessage.style.color = "red"
         errorMessage.style.fontSize = '12px'
-        annualInvestment.append(errorMessage)
+        annualInvestment.after(errorMessage)
 
         return false
     }
@@ -568,7 +586,8 @@ const validatePart2percentageAllocation = () => {
 const validatePart3AutomatedRebalancing = () => {
 
     const automatedRebalancing = document.getElementsByName("automatedRebalancing")
-    const automatedRebalancingContainer = document.querySelector(".automatedRebalancing")
+    // const automatedRebalancingContainer = document.querySelector(".automatedRebalancing")
+    const automatedRebalancingContainer = document.querySelector(".optContainer")
 
     let checkError = document.querySelector('.errorAutomatedRebalancing')
     if (checkError) {
@@ -602,7 +621,8 @@ const validatePart3AutomatedRebalancing = () => {
 // validate the Acknowledgement (checkbox, required field)
 const validatePart3AckCheckBox = () => {
     const checkBoxElement = document.getElementById('riskAck')
-    const checkBoxParent = document.querySelector('.riskAcknowledgement')
+    // const checkBoxParent = document.querySelector('.riskAcknowledgement')
+    const checkBoxParent = document.querySelector('.riskAcknowledgementContainer')
 
     const checkError = document.querySelector('.errorAckCheck')
     if (checkError) {
@@ -615,7 +635,8 @@ const validatePart3AckCheckBox = () => {
         errorMessage.innerText = "This is a required Field!"
         errorMessage.style.color = "red"
         errorMessage.style.fontSize = '13.65px'
-        checkBoxParent.appendChild(errorMessage)
+        errorMessage.style.marginLeft = '6%'
+        checkBoxParent.after(errorMessage)
         return false
     }
 
