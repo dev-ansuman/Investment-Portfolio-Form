@@ -1,226 +1,8 @@
-const previousPage = () => {
-    const investmentDetailLogo = document.getElementById('investmentDetailLogo')
-    const progressBar1 = document.getElementById('progressBar1')
-    const assetAllocationLogo = document.getElementById('assetAllocationLogo')
-    const progressBar2 = document.getElementById('progressBar2')
-    const preferenceLogo = document.getElementById('preferencesLogo')
-
-    if (document.getElementById('part1').style.display === 'none' && document.getElementById('part2').style.display === 'none' && document.getElementById('part3').style.display === '') {
-
-        // document.getElementById('part1').style.display = 'none';
-        document.getElementById('part2').style.display = ''
-        document.getElementById('part3').style.display = 'none';
-
-        assetAllocationLogo.src = './images/asset.svg'
-        preferenceLogo.style.backgroundColor = ''
-        progressBar2.style.backgroundColor = 'black'
-        const button = document.getElementById('forward')
-        button.style.display = ''
-        const submitButton = document.getElementById('submitButton')
-        submitButton.style.display = 'none'
-
-    }
-
-    else if (document.getElementById('part1').style.display === 'none' && document.getElementById('part2').style.display === '' && document.getElementById('part3').style.display === 'none') {
-
-        const previousButton = document.getElementById('prevButton')
-        previousButton.disabled = true
-
-        document.getElementById('part1').style.display = '';
-        document.getElementById('part2').style.display = 'none';
-
-        investmentDetailLogo.src = './images/details.svg'
-        assetAllocationLogo.style.backgroundColor = ''
-        progressBar1.style.backgroundColor = 'black'
-        // document.getElementById('part3').style.display = 'none';
-
-    }
-}
-
-const nextPage = () => {
-    const investmentDetailLogo = document.getElementById('investmentDetailLogo')
-    const progressBar1 = document.getElementById('progressBar1')
-    const assetAllocationLogo = document.getElementById('assetAllocationLogo')
-    const assetAllocationProgresstext = document.getElementById('assetAllocationProgresstext')
-    const progressBar2 = document.getElementById('progressBar2')
-    const preferenceLogo = document.getElementById('preferencesLogo')
-    const preferenceProgressText = document.getElementById('preferenceProgressText')
-
-    if (document.getElementById('part1').style.display === '' && document.getElementById('part2').style.display === 'none' && document.getElementById('part3').style.display === 'none') {
-
-
-        const previousButton = document.getElementById('prevButton')
-
-        validatePart1PortfolioName()
-        validatePart1PortfolioType()
-        validatePart1InvestmentGoal()
-        validatePart1InvestmentHorizon()
-        validatePart1RiskTolerance()
-
-        let moveToNextPage = validatePart1PortfolioName() &&
-            validatePart1PortfolioType() &&
-            validatePart1InvestmentGoal() &&
-            validatePart1InvestmentHorizon() &&
-            validatePart1RiskTolerance()
-
-        if (moveToNextPage) {
-
-            document.getElementById('part1').style.display = 'none';
-            document.getElementById('part2').style.display = ''
-            document.getElementById('part3').style.display === 'none';
-
-            investmentDetailLogo.src = './images/tick.svg'
-            progressBar1.style.backgroundColor = '#42e0ae'
-            assetAllocationLogo.style.backgroundColor = '#42e0ae'
-            assetAllocationProgresstext.style.color = '#127656'
-            assetAllocationLogo.style.border = 'none'
-            previousButton.disabled = false
-
-        }
-        // else {
-        //     alert('Please Fill all required fields')
-        // }
-    }
-
-    else if (document.getElementById('part1').style.display === 'none' && document.getElementById('part2').style.display === '' && document.getElementById('part3').style.display === 'none') {
-
-        validatePart2AnnualInvestmentCapacity()
-        validatePart2AssetClass()
-        validatePart2percentageAllocation()
-
-        let moveToNextPage = validatePart2AnnualInvestmentCapacity() &&
-            validatePart2AssetClass() &&
-            validatePart2percentageAllocation()
-
-        if (moveToNextPage) {
-            document.getElementById('part1').style.display === 'none';
-            document.getElementById('part2').style.display = 'none';
-            document.getElementById('part3').style.display = '';
-
-            assetAllocationLogo.src = './images/tick.svg'
-            progressBar2.style.backgroundColor = '#42e0ae'
-            preferenceLogo.style.backgroundColor = '#42e0ae'
-            preferenceProgressText.color = ''
-            const button = document.getElementById('forward')
-            button.style.display = 'none'
-            const submitButton = document.getElementById('submitButton')
-            submitButton.style.backgroundColor = '#42e0ae'
-            submitButton.style.border = 'none'
-            submitButton.style.display = ''
-        }
-        // else {
-        //     alert('Please Fill all required fields')
-        // }
-
-    }
-}
-
-const formSubmit = () => {
-
-    validatePart3AutomatedRebalancing()
-    validatePart3AckCheckBox()
-
-    // Submit
-    let submit = validatePart3AutomatedRebalancing() && validatePart3AckCheckBox()
-
-    if (submit) {
-
-        alert('The form is submitted')
-
-    } else {
-        alert('Please fill all the required fields')
-    }
-
-}
-
-let assetId = 1
-const addAsset = () => {
-    assetId++
-    const newRow = document.createElement('div')
-    newRow.className = 'assets'
-    newRow.id = `asset-${assetId}`
-
-    newRow.innerHTML = `
-        <div class="assetClass">
-                                    <div class="assetLabel">
-                                        <label class="assetSubheading">Asset Class <span class="required">*</span></label>
-                                    </div>
-                                    <div class="assetDropdown">
-                                        <select name="assetClass" class="assetClassDropdown" id="assetClass${assetId}" onchange="autoSuggestSpecificFund('assetClass${assetId}', 'specificFundAuto${assetId}')">
-                                            <option value="">-- Select --</option>
-                                            <option value="Equity">Stocks</option>
-                                            <option value="Fixed Income">Bond</option>
-                                            <option value="Cash Equivalent">Cash</option>
-                                            <option value="REITs">Real Estate</option>
-                                            <option value="Foreign Exchange">Forex</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="percentageAllocation" id="percentageAllocation-${assetId}">
-                                    <!-- Input for Percentage Allocation -->
-                                    <div class="percentageAllocationLabel">
-                                        <label class="assetSubheading">Percentage Allocation(%) <span class="required">*</span></label>
-                                    </div>
-                                    <div class="percentageAllocationContainer">
-                                        <input type="number" class="percentageAllocationInput" id="percentageAllocationInput-${assetId}" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
-                                    </div>
-                                </div>
-
-                                <div class="specificFund">
-                                    <!-- Input for specific fund -->
-                                    <div class="specificFundLabel">
-                                        <label class="assetSubheading">Specific Fund</label>
-                                    </div>
-                                    <div class="specificFundInput">
-                                        <input type="text" id="specificFundAuto${assetId}">
-                                    </div>
-                                </div>
-
-                                <div class="currentValue">
-                                    <!-- Input for current Value -->
-                                    <div class="currentValueLabel">
-                                        <label class="assetSubheading">Current Value</label>
-                                    </div>
-                                    <div class="deleteAssetDiv">
-                                        <div class="currentValueInput">
-                                            <input type="number" placeholder="INR">
-                                        </div>
-                                        <div class="removeAsset">
-                                            <button onclick="removeAsset('asset-${assetId}')">🗑️</button>
-                                        </div>
-                                    </div>
-
-
-                                </div>
-    `
-
-    const assetContainer = document.querySelector('.assetContainer')
-    assetContainer.appendChild(newRow)
-}
-
-const removeAsset = (id) => {
-    const rowToRemove = document.getElementById(id)
-
-    if (rowToRemove && assetId > 1) {
-        rowToRemove.remove()
-        assetId--
-    }
-
-    // if (assetId == 1) {
-    //     const errorMessage = document.createElement("div")
-    //     errorMessage.className = 'errorPortfolioNameInput'
-    //     errorMessage.innerText = "This row cannot be removed"
-    //     errorMessage.style.color = "red"
-    //     rowToRemove.appendChild(errorMessage)
-    //     rowToRemove.style.display = 'flex'
-    //     // rowToRemove.style.flexDirection = 'column'
-    // }
-}
+import {checkName, checkNumber} from './utils.js'
 
 // Validations for part 1 of the form
 // validate the portfolio name (input, required field)
-const validatePart1PortfolioName = () => {
+export const validatePart1PortfolioName = () => {
 
     const portfolioNameInput = document.getElementById("portfolioNameInput")
     const portfolioName = document.querySelector(".portfolioInput")
@@ -257,12 +39,11 @@ const validatePart1PortfolioName = () => {
         return false
     }
 
-
     return true
 }
 
 // validate the portfolio type (radio, required field)
-const validatePart1PortfolioType = () => {
+export const validatePart1PortfolioType = () => {
 
     const portfolioTypeInput = document.getElementsByName("portfolioType")
     const radioPortfolioType = document.querySelector(".portfolioType")
@@ -296,7 +77,7 @@ const validatePart1PortfolioType = () => {
 }
 
 // validate the Investment Goal (dropdown, required field)
-const validatePart1InvestmentGoal = () => {
+export const validatePart1InvestmentGoal = () => {
     const selectedField = document.getElementById('investmentGoal')
     const investmentGoalContainer = document.querySelector('.investmentGoalDropdown')
     let checkError = document.querySelector('.errorInvestmentGoal')
@@ -318,7 +99,7 @@ const validatePart1InvestmentGoal = () => {
 }
 
 // validate the portfolio type (dropdown, required field)
-const validatePart1InvestmentHorizon = () => {
+export const validatePart1InvestmentHorizon = () => {
     const selectedField = document.getElementById('investmentHorizon')
     const investmentGoalContainer = document.querySelector('.investmentHorizonDropdown')
     let checkError = document.querySelector('.errorInvestmentHorizon')
@@ -340,7 +121,7 @@ const validatePart1InvestmentHorizon = () => {
 }
 
 // validate the portfolio type (radio, required field)
-const validatePart1RiskTolerance = () => {
+export const validatePart1RiskTolerance = () => {
 
     const riskToleranceInput = document.getElementsByName("riskTolerance")
     const riskToleranceTypes = document.querySelector(".riskTolerance")
@@ -377,7 +158,7 @@ const validatePart1RiskTolerance = () => {
 
 // Validations for part 2 of the form
 // validate the Annual Investment Capacity (input, required field)
-const validatePart2AnnualInvestmentCapacity = () => {
+export const validatePart2AnnualInvestmentCapacity = () => {
 
     const annualInvestmentCapacityInput = document.getElementById("annualInvestmentCapacityInput")
     const annualInvestment = document.querySelector(".annualCapacityContainer")
@@ -427,7 +208,7 @@ const validatePart2AnnualInvestmentCapacity = () => {
 }
 
 // validate the Asset Class (dropdown, required field)
-const validatePart2AssetClass = () => {
+export const validatePart2AssetClass = () => {
 
     let presence = true
 
@@ -450,10 +231,10 @@ const validatePart2AssetClass = () => {
             errorMessage.className = 'errorAssetClass'
             errorMessage.innerText = 'This is a required field!'
             errorMessage.style.color = 'red'
-            errorMessage.style.fontSize = '8px'
+            errorMessage.style.fontSize = '12px'
             assetDropdownContainer.append(errorMessage)
 
-            deleteButton.style.alignSelf = 'center'
+            // deleteButton.style.alignSelf = 'center'
 
             presence = false
         }
@@ -463,7 +244,7 @@ const validatePart2AssetClass = () => {
     return presence
 }
 
-const autoSuggestSpecificFund = (assetId, specificFundId) => {
+export const autoSuggestSpecificFund = (assetId, specificFundId) => {
 
     const specificFundInput = document.getElementById(specificFundId)
     const assetChosen = document.getElementById(assetId)
@@ -473,7 +254,7 @@ const autoSuggestSpecificFund = (assetId, specificFundId) => {
 }
 
 // validate the Percentage Allocation (input, required field)
-const validatePart2percentageAllocation = () => {
+export const validatePart2percentageAllocation = () => {
 
     let presence = true
 
@@ -506,7 +287,7 @@ const validatePart2percentageAllocation = () => {
             errorMessage.className = 'errorPercentageAllocation'
             errorMessage.innerText = "This is a required Field!"
             errorMessage.style.color = "red"
-            errorMessage.style.fontSize = '13.65px'
+            errorMessage.style.fontSize = '12px'
             percentageAllocation.appendChild(errorMessage)
             deleteButton.style.alignSelf = 'center'
             presence = false
@@ -517,7 +298,7 @@ const validatePart2percentageAllocation = () => {
             errorMessage.className = 'errorPercentageAllocation'
             errorMessage.innerText = "Invalid Percentage!"
             errorMessage.style.color = "red"
-            errorMessage.style.fontSize = '13.65px'
+            errorMessage.style.fontSize = '12px'
             percentageAllocation.appendChild(errorMessage)
             deleteButton.style.alignSelf = 'center'
             presence = false
@@ -583,7 +364,7 @@ const validatePart2percentageAllocation = () => {
 
 // Validations for part 3 of the form
 // validate the automatic rebalancing (radio, required field)
-const validatePart3AutomatedRebalancing = () => {
+export const validatePart3AutomatedRebalancing = () => {
 
     const automatedRebalancing = document.getElementsByName("automatedRebalancing")
     // const automatedRebalancingContainer = document.querySelector(".automatedRebalancing")
@@ -619,7 +400,7 @@ const validatePart3AutomatedRebalancing = () => {
 }
 
 // validate the Acknowledgement (checkbox, required field)
-const validatePart3AckCheckBox = () => {
+export const validatePart3AckCheckBox = () => {
     const checkBoxElement = document.getElementById('riskAck')
     // const checkBoxParent = document.querySelector('.riskAcknowledgement')
     const checkBoxParent = document.querySelector('.riskAcknowledgementContainer')
@@ -641,15 +422,4 @@ const validatePart3AckCheckBox = () => {
     }
 
     return true
-}
-
-const checkName = (str) => {
-    const regex = /^[a-zA-Z\s]+$/;
-    return regex.test(str);
-}
-
-const checkNumber = (str) => {
-    const regex1 = /^[1-9]+\.[0-9]+$/;
-    const regex2 = /^[1-9]+$/;
-    return regex1.test(str) || regex2.test(str); // Use the test() method to check for a match
 }
