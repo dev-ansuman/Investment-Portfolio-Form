@@ -29,12 +29,14 @@
 
                 <div class="progress">
 
-                    <div class="progressImage">
-                        <!-- <img src="./images/InvestmentDetails.png" id="investmentDetailLogo"
-                        style="background-color: whitesmoke;"> -->
-                        <img src="./images/details.svg" id="investmentDetailLogo"
+                    <img src="./images/details.svg" id="investmentDetailLogo"
                             style="background-color: #42e0ae; border: none;">
-                    </div>
+
+                    <!-- <div class="progressImage">
+                        
+                    </div> -->
+                    <!-- <img src="./images/InvestmentDetails.png" id="investmentDetailLogo"
+                    style="background-color: whitesmoke;"> -->
 
                     <div class="progressText" style="color: #127656;">
                         Investment details
@@ -93,8 +95,7 @@
                                     Portfolio Name <span class="required">*</span>
                                 </div>
                                 <div class="portfolioInput">
-                                    <input type="text" id="portfolioNameInput" class="input" name="portfolioName"
-                                        onkeypress="validatePart1PortfolioName()">
+                                    <input type="text" id="portfolioNameInput" class="input" name="portfolioName">
                                 </div>
 
                             </div>
@@ -225,7 +226,7 @@
 
                                     <div class="annualCapacityInput">
                                         <input type="text" name="annualCapacityInput" id="annualInvestmentCapacityInput"
-                                            class="input" onkeypress="validatePart2AnnualInvestmentCapacity()"
+                                            class="input"
                                             placeholder="INR">
                                     </div>
 
@@ -272,8 +273,7 @@
                                             </div>
                                             <div class="assetDropdown">
                                                 <select name="assetClass" class="assetClassDropdown input assetSubheading"
-                                                    id="assetClass1"
-                                                    onchange="autoSuggestSpecificFund('assetClass1', 'specificFundAuto1')">
+                                                    id="assetClass1">
                                                     <option value="">-- Select --</option>
                                                     <option value="Equity">Stocks</option>
                                                     <option value="Fixed Income">Bond</option>
@@ -292,9 +292,7 @@
                                             </div>
                                             <div class="percentageAllocationContainer">
                                                 <input name="percentage" type="number"
-                                                    class="percentageAllocationInput input assetSubheading" id="percentageAllocationInput-1"
-                                                    onkeypress="validatePart2percentageAllocation()"
-                                                    onchange="validatePart2percentageAllocation()">
+                                                    class="percentageAllocationInput input assetSubheading" id="percentageAllocationInput-1">
                                             </div>
                                         </div>
 
@@ -314,14 +312,18 @@
                                             <div class="currentValueLabel">
                                                 <label class="assetSubheading">Current Value</label>
                                             </div>
+
                                             <div class="deleteAssetDiv">
+                                                
                                                 <div class="currentValueInput assetInputLength">
                                                     <input name="currentValue" type="number"
                                                         placeholder="INR" class="getCurrentValue input assetSubheading">
                                                 </div>
+
                                                 <div class="removeAsset">
-                                                    <button onclick="removeAsset('asset-0')">🗑️</button>
+                                                    <button type="button" class="removeAssetButton" id="0">🗑️</button>
                                                 </div>
+
                                             </div>
 
 
@@ -333,7 +335,7 @@
                             </div>
 
                             <div class="addAsset">
-                                <button type="button" class="addAssetButton" onclick=addAsset()>Add Asset</button>
+                                <button type="button" class="addAssetButton" id="addAssetButton">Add Asset</button>
                             </div>
 
                             <div class="investmentStyle">
@@ -440,9 +442,9 @@
                 </form>
 
                 <div class="buttonContainer">
-                    <button class="navigationButton" id="prevButton" onclick="previousPage()" disabled>Previous</button>
-                    <button class="navigationButton" onclick="nextPage()" id="forward">Continue</button>
-                    <button class="navigationButton" onclick="formSubmit()" style="display: none;" form="portfolioForm"
+                    <button class="navigationButton" id="prevButton" disabled>Previous</button>
+                    <button class="navigationButton" id="forward">Continue</button>
+                    <button class="navigationButton" style="display: none;" form="portfolioForm"
                         id="submitButton">Submit</button>
                 </div>
 
@@ -450,7 +452,15 @@
 
         </div>
 
-        <aside style="width: 50%;" class="tableSection">
+        <aside class="tableSection">
+            <div class="tableButtonContainer" style="width: 100%;height: 12%;">
+                <button class="recordActionButton" id="editRecordButton">
+                    <img src="./images/editRecord.svg" alt="">
+                </button>
+                <button class="recordActionButton" id="deleteRecordButton">
+                    <img src="./images/deleteRecord.svg" alt="">
+                </button>
+            </div>
             <div class="tableWrapper">
                 <table id="formTable"></table>
             </div>
@@ -458,7 +468,7 @@
     </div>
 
 
-    <script src="script.js"></script>
+    <script type="module" src="./script/main.js"></script>
 </body>
 
 </html>

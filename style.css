@@ -19,7 +19,8 @@ header img {
     width: 25px;
 }
 
-html, body {
+html,
+body {
     background-color: #eefdf5;
     /* added */
     height: 100%;
@@ -45,8 +46,10 @@ section {
 }
 
 .projectTitle {
-    font-size: 25px;
-    font-weight: 600;
+    font-size: 27px;
+    font-weight: 700;
+    color: #01462f;
+
 }
 
 .progressBar {
@@ -57,6 +60,7 @@ section {
     margin-bottom: 20px;
     align-items: center;
     color: rgb(63, 61, 61);
+    /* padding-top: ; */
 }
 
 .progress {
@@ -68,15 +72,17 @@ section {
     align-items: center;
 
     flex-direction: column;
+    gap: 5px;
 }
 
 .progress img {
-    height: 20px;
-    width: 20px;
+    height: 34px;
+    width: 34px;
     /* border: 1.3px solid black; */
     background-color: rgb(203, 230, 217);
     padding: 8px;
     border-radius: 7px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
 }
 
 
@@ -89,7 +95,9 @@ section {
     background-color: black;
     height: 1.5px;
     width: 50px;
-    align-self: center;
+    align-self: flex-start;
+    margin-top: 13px;
+    /* padding-top: 12px; */
 }
 
 #wholeContent {
@@ -121,6 +129,7 @@ section {
     justify-content: flex-start;
     align-items: center;
     margin: 0 0 10px 0;
+    height: 100%;
 }
 
 /* part 1 of the form */
@@ -542,132 +551,6 @@ section {
     border: 1px solid;
 }
 
-/* for part1 */
-/* @media screen and (max-width: 916px) {
-
-    header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    header h1 {
-        font-size: 30px;
-    }
-
-    .portfolioName,
-    .portfolioType,
-    .investmentHorizon,
-    .riskTolerance,
-    .investmentGoalSelect {
-        flex-direction: column;
-        font-size: xx-small;
-        width: 100%;
-        gap: 1px;
-    }
-
-    #portfolioNameInput {
-        width: 240px;
-    }
-
-    .portfolioTypeText {
-        font-size: 20px;
-    }
-
-    .radioPortfolioTypeElement {
-        width: 200px;
-    }
-
-    .investmentHorizon select,
-    .investmentGoalSelect select {
-        width: 240px;
-    }
-
-    .investmentHorizon option,
-    .investmentGoalSelect option {
-        width: 80%;
-    }
-
-    .formPart1 {
-        width: 100%;
-    }
-
-    .errorRiskTolerance,
-    .errorPortfolioTypeInput {
-        width: 150px;
-    }
-} */
-
-/* for part2 */
-/* @media screen and (max-width: 1274px) {
-
-    header {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    header h1 {
-        font-size: 30px;
-    }
-
-    .formPart2 {
-        width: 100%;
-    }
-
-    .annualInvestmentCapacity,
-    .lumpSumAmount,
-    .monthlyContribution,
-    .assets {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .annualCapacityText {
-        font-size: 19px;
-    }
-
-    .removeAsset {
-        align-self: flex-start;
-    }
-
-    .addAssetButton {
-        width: 80px;
-        padding: 3px;
-    }
-} */
-
-/* for part3 */
-/* @media screen and (max-width: 1208px) {
-    .formPart3 {
-        width: 100%;
-    }
-
-    .automatedRebalancingContainer,
-    .riskAcknowledgementContainer {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
-
-    .automatedRebalancingContainer {
-        width: 258px;
-        font-size: 17px;
-        gap: 4px;
-    }
-
-    #riskAckLabel {
-        width: 167px;
-        font-size: 15px;
-    }
-
-    .automatedRebalancingRadio {
-        display: flex;
-        justify-content: flex-start;
-        align-self: flex-start;
-    }
-} */
-
 input {
     padding-left: 6px;
 }
@@ -697,50 +580,52 @@ button:disabled {
     width: 100%;
 }
 
-.disable:hover{
+.disable:hover {
     cursor: not-allowed;
 }
 
-/* added */
 .tableSection {
     width: 50%;
     height: 100%;
-    /* background-color: pink; */
-    padding: 10px;
     box-sizing: border-box;
-    padding-top: 32px;
-    padding-left: 16px;
-    padding-right: 16px;
+    padding-bottom: 32px;
+
 }
 
 .tableWrapper {
-    height: 100%;
+    height: 90%;
     overflow-y: auto;
     overflow-x: auto;
     background: #ffffff;
-    border-radius: 12px;
-    padding: 12px;
+    border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    width: 98%;
+    margin-bottom: 20px;
+    border: 1px solid black;
+}
+
+.tableWrapper::-webkit-scrollbar {
+    display: none;
 }
 
 table {
     width: 100%;
     border-collapse: separate;
-    border-spacing: 0 8px;
+    border-spacing: 0 0px;
 }
 
-th, td {
+th,
+td {
     border: 1px solid grey;
     text-align: center;
     font-size: 13px;
-    /* word-break: break-word; */
 }
 
 th {
     background-color: #42e0ae;
     color: black;
     font-weight: 600;
-    padding: 10px;
+    padding: 3px;
     font-size: 13px;
     text-align: center;
     position: sticky;
@@ -754,9 +639,70 @@ td {
     padding: 0px 6px;
     font-size: 11px;
     text-align: center;
-    /* border-radius: 6px; */
+    height: max-content;
+    height: 32px;
 }
 
 tbody tr:hover td {
     background-color: #d5efe7;
+    cursor: pointer;
+}
+
+.tableButtonContainer {
+    display: flex;
+    justify-content: end;
+    gap: 1%;
+    align-items: end;
+    padding-right: 4%;
+    padding-bottom: 1%;
+}
+
+.tableButtonContainer button {
+    background-color: #8ceecf;
+    border: none;
+    padding: 4px 5px;
+    border-radius: 7px;
+    width: 7%;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.selectedRecord td {
+    background-color: #59bd9e;
+}
+
+.recordActionButton,
+.navigationButton {
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width: 1216px) {
+
+    * {
+        overflow: unset;
+    }
+
+    #wholeContent {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    #form {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .tableSection {
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+    }
+
+    .tableWrapper {
+        overflow: unset;
+        width: 100%;
+    }
 }
