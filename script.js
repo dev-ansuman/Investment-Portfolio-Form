@@ -133,7 +133,7 @@ const formSubmit = () => {
 
 }
 
-let assetId = 1
+let assetId = 0
 const addAsset = () => {
     assetId++
     const newRow = document.createElement('div')
@@ -141,12 +141,12 @@ const addAsset = () => {
     newRow.id = `asset-${assetId}`
 
     newRow.innerHTML = `
-        <div class="assetClass">
+        <div class="assetClass subAssetDiv">
                                     <div class="assetLabel">
                                         <label class="assetSubheading">Asset Class <span class="required">*</span></label>
                                     </div>
                                     <div class="assetDropdown">
-                                        <select name="assetClass" class="assetClassDropdown" id="assetClass${assetId}" onchange="autoSuggestSpecificFund('assetClass${assetId}', 'specificFundAuto${assetId}')">
+                                        <select name="assetClass" class="assetClassDropdown input assetSubheading" id="assetClass${assetId}" onchange="autoSuggestSpecificFund('assetClass${assetId}', 'specificFundAuto${assetId}')">
                                             <option value="">-- Select --</option>
                                             <option value="Equity">Stocks</option>
                                             <option value="Fixed Income">Bond</option>
@@ -157,34 +157,34 @@ const addAsset = () => {
                                     </div>
                                 </div>
 
-                                <div class="percentageAllocation" id="percentageAllocation-${assetId}">
+                                <div class="percentageAllocation subAssetDiv" id="percentageAllocation-${assetId}">
                                     <!-- Input for Percentage Allocation -->
                                     <div class="percentageAllocationLabel">
                                         <label class="assetSubheading">Percentage Allocation(%) <span class="required">*</span></label>
                                     </div>
                                     <div class="percentageAllocationContainer">
-                                        <input type="number" class="percentageAllocationInput" id="percentageAllocationInput-${assetId}" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
+                                        <input name="percentage" type="number" class="percentageAllocationInput input assetSubheading" id="percentageAllocationInput-${assetId}" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
                                     </div>
                                 </div>
 
-                                <div class="specificFund">
+                                <div class="specificFund subAssetDiv">
                                     <!-- Input for specific fund -->
                                     <div class="specificFundLabel">
                                         <label class="assetSubheading">Specific Fund</label>
                                     </div>
                                     <div class="specificFundInput">
-                                        <input type="text" id="specificFundAuto${assetId}">
+                                        <input name="specificFund" type="text" id="specificFundAuto${assetId}" class="specificFundInputAuto input assetSubheading">
                                     </div>
                                 </div>
 
-                                <div class="currentValue">
+                                <div class="currentValue subAssetDiv">
                                     <!-- Input for current Value -->
                                     <div class="currentValueLabel">
                                         <label class="assetSubheading">Current Value</label>
                                     </div>
                                     <div class="deleteAssetDiv">
                                         <div class="currentValueInput">
-                                            <input type="number" placeholder="INR">
+                                            <input name="currentValue" type="number" placeholder="INR" class="getCurrentValue input assetSubheading">
                                         </div>
                                         <div class="removeAsset">
                                             <button onclick="removeAsset('asset-${assetId}')">🗑️</button>
@@ -200,12 +200,17 @@ const addAsset = () => {
 }
 
 const removeAsset = (id) => {
+    const assets = document.querySelectorAll('.assets')
     const rowToRemove = document.getElementById(id)
 
-    if (rowToRemove && assetId > 1) {
+    if (rowToRemove && assets.length > 1) {
         rowToRemove.remove()
         assetId--
     }
+    // if (rowToRemove && assetId > 0) {
+    //     rowToRemove.remove()
+    //     assetId--
+    // }
 
     // if (assetId == 1) {
     //     const errorMessage = document.createElement("div")
@@ -216,6 +221,424 @@ const removeAsset = (id) => {
     //     rowToRemove.style.display = 'flex'
     //     // rowToRemove.style.flexDirection = 'column'
     // }
+}
+
+// submit form and store data in localStorage
+const form = document.getElementById('portfolioForm');
+form.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    const submitButton = document.getElementById('submitButton');
+
+    if(submitButton.innerText == 'Update') {
+        editRecord(event);
+    }else {
+        submitRecord(event);
+    }
+});
+
+const submitRecord = (event) => {
+
+    // Part-1
+    const portfolioName = event.target.portfolioName.value;
+    const portfolioType = event.target.portfolioType.value;
+    const investmentGoal = event.target.investmentGoal.value;
+    const investmentHorizon = event.target.investmentHorizon.value;
+    const riskTolerance = event.target.riskTolerance.value;
+
+    // Part-2
+    const annualCapacityInput = event.target.annualCapacityInput.value;
+    const lumpSumAmount = event.target.lumpSumAmount.value;
+    const monthlyContribution = event.target.monthlyContribution.value;
+
+    // assets
+    const assetData = [];
+    const assets = document.querySelectorAll('.assets');
+    assets.forEach((asset) => {
+        const data = {};
+        data.assetClass = asset.querySelector('.assetClassDropdown').value;
+        data.percentageAllocation = asset.querySelector('.percentageAllocationInput').value;
+        data.specificFund = asset.querySelector('.specificFundInputAuto').value;
+        data.currentValue = asset.querySelector('.getCurrentValue').value;
+
+        assetData.push(data);
+    })
+
+    const investmentStyleCheckbox = document.querySelectorAll('input[name=investmentStyle]');
+    const selectedinvestmentStyle = [];
+    investmentStyleCheckbox.forEach((checkBox) => {
+        if (checkBox.checked) {
+            selectedinvestmentStyle.push(checkBox.value);
+        }
+    });
+
+
+
+    // Part-3
+    const automatedRebalancing = event.target.automatedRebalancing.value;
+    const taxSavingPrefernce = event.target.taxSavingPrefernce.value;
+    const financialGoals = event.target.financialGoals.value;
+    const riskAcknowledgement = event.target.riskAcknowledgement.value;
+
+    let localStorageDataString = localStorage.getItem('portfolioFormData');
+
+    let localStorageData, newId;
+    if (localStorageDataString) {
+        localStorageData = JSON.parse(localStorageDataString);
+        newId = localStorageData[localStorageData.length - 1].id + 1;
+    } else {
+        localStorageData = [];
+        newId = 1;
+    }
+
+    const formData = {
+        id: newId,
+
+        portfolioName: portfolioName.trim(),
+        portfolioType,
+        investmentGoal,
+        investmentHorizon,
+        riskTolerance,
+
+        annualInvestmentCapacity: annualCapacityInput,
+        lumpSumAmount,
+        monthlyContribution,
+        assets: assetData,
+        investmentStyle: selectedinvestmentStyle,
+
+        automatedRebalancing,
+        taxSavingPrefernce,
+        financialGoals: financialGoals.trim(),
+        riskAcknowledgement,
+    }
+
+    console.log(formData);
+
+    // const localStorageDataToUpdate = localStorageData.filter(record => record.portfolioName != formData.portfolioName);
+
+    localStorageData.push(formData);
+
+    localStorageDataString = JSON.stringify(localStorageData);
+
+    localStorage.setItem('portfolioFormData', localStorageDataString);
+    showDataInTable();
+
+
+    // console.log('portfolioName: ', portfolioName);
+    // console.log('portfolioType: ', portfolioType);
+    // console.log('investmentGoal: ', investmentGoal);
+    // console.log('investmentHorizon: ', investmentHorizon);
+    // console.log('riskTolerance: ', riskTolerance);
+
+    // console.log('annualCapacityInput: ', annualCapacityInput);
+    // console.log('lumpSumAmount: ', lumpSumAmount);
+    // console.log('monthlyContribution: ', monthlyContribution);
+    // console.log('asset data', assetData);
+    // console.log('investmentStyle: ', selectedinvestmentStyle)
+
+    // console.log('automatedRebalancing: ', automatedRebalancing);
+    // console.log('taxSavingPrefernce: ', taxSavingPrefernce);
+    // console.log('financialGoals: ', financialGoals);
+    // console.log('riskAcknowledgement: ', riskAcknowledgement);
+
+    // console.log('whole form data:', formData);
+}
+
+const editRecord = (event) => {
+    // Part-1
+    const portfolioName = event.target.portfolioName.value;
+    const portfolioType = event.target.portfolioType.value;
+    const investmentGoal = event.target.investmentGoal.value;
+    const investmentHorizon = event.target.investmentHorizon.value;
+    const riskTolerance = event.target.riskTolerance.value;
+
+    // Part-2
+    const annualCapacityInput = event.target.annualCapacityInput.value;
+    const lumpSumAmount = event.target.lumpSumAmount.value;
+    const monthlyContribution = event.target.monthlyContribution.value;
+
+    // assets
+    const assetData = [];
+    const assets = document.querySelectorAll('.assets');
+    assets.forEach((asset) => {
+        const data = {};
+        data.assetClass = asset.querySelector('.assetClassDropdown').value;
+        data.percentageAllocation = asset.querySelector('.percentageAllocationInput').value;
+        data.specificFund = asset.querySelector('.specificFundInputAuto').value;
+        data.currentValue = asset.querySelector('.getCurrentValue').value;
+
+        assetData.push(data);
+    })
+
+    const investmentStyleCheckbox = document.querySelectorAll('input[name=investmentStyle]');
+    const selectedinvestmentStyle = [];
+    investmentStyleCheckbox.forEach((checkBox) => {
+        if (checkBox.checked) {
+            selectedinvestmentStyle.push(checkBox.value);
+        }
+    });
+
+
+
+    // Part-3
+    const automatedRebalancing = event.target.automatedRebalancing.value;
+    const taxSavingPrefernce = event.target.taxSavingPrefernce.value;
+    const financialGoals = event.target.financialGoals.value;
+    const riskAcknowledgement = event.target.riskAcknowledgement.value;
+
+    const formData = {
+        id: selectedRowId,
+
+        portfolioName: portfolioName.trim(),
+        portfolioType,
+        investmentGoal,
+        investmentHorizon,
+        riskTolerance,
+
+        annualInvestmentCapacity: annualCapacityInput,
+        lumpSumAmount,
+        monthlyContribution,
+        assets: assetData,
+        investmentStyle: selectedinvestmentStyle,
+
+        automatedRebalancing,
+        taxSavingPrefernce,
+        financialGoals: financialGoals.trim(),
+        riskAcknowledgement,
+    }
+
+    let localStorageDataString = localStorage.getItem('portfolioFormData');
+    if (localStorageDataString) {
+        const localStorageData = JSON.parse(localStorageDataString);
+        const index = localStorageData.findIndex(record => record.id == selectedRowId)
+
+        if (index != -1){
+            localStorageData[index] = formData;
+        }
+
+        localStorageDataString = JSON.stringify(localStorageData);
+        localStorage.setItem('portfolioFormData', localStorageDataString);
+    }
+}
+
+const showDataInTable = () => {
+    const localStorageDataString = localStorage.getItem('portfolioFormData')
+
+
+    if (localStorageDataString) {
+
+        const localStorageData = JSON.parse(localStorageDataString);
+        console.log(localStorageData);
+
+        const table = document.getElementById('formTable')
+        table.innerHTML = ''
+        table.innerHTML = `
+        <colGroup>
+            <col style="width: 16%">
+            <col style="width: 10%">
+            <col style="width: 18%">
+            <col style="width: 18%">
+            <col style="width: 10%">
+            <col style="width: 10%">
+            <col style="width: 6%">
+            <col style="width: 12%">
+        </colGroup>
+
+        <thead>
+            <tr>
+                <th>Portfolio Name</th>
+                <th>Portfolio Type</th>
+                <th>Investment Goal</th>
+                <th>Investment Horizon</th>
+                <th>Risk Tolerance</th>
+                <th>Annual Investment</th>
+                <th>Assets</th>
+                <th>Automated Rebalancing</th>
+            </tr>
+        </thead>
+
+        <tbody id="tableBody"></tbody>
+    `
+        const tbody = document.getElementById('tableBody');
+
+        localStorageData.forEach(record => {
+            const row = document.createElement('tr')
+            row.dataset.id = record.id;
+            row.addEventListener('click', () => {
+                selectRow(record.id)
+                popupateForm();
+            })
+
+            row.innerHTML = `
+            <td>${record.portfolioName}</td>
+            <td>${record.portfolioType}</td>
+            <td>${record.investmentGoal}</td>
+            <td>${record.investmentHorizon}</td>
+            <td>${record.riskTolerance}</td>
+            <td>${record.annualInvestmentCapacity}</td>
+            <td>${record.assets.length}</td>
+            <td>${record.automatedRebalancing}</td>
+        `
+            tbody.appendChild(row)
+        })
+
+    }
+    else {
+        console.log('NO DATA TO DISPLAY')
+    }
+}
+showDataInTable();
+
+let selectedRowId = null;
+const selectRow = (id) => {
+    selectedRowId = id;
+    // console.log(selectedRowId);
+}
+
+// Remove a record (record is retrieved based on the Portfolio Name - Unique Field)
+const removeRecord = () => {
+    const localStorageDataString = localStorage.getItem('portfolioFormData')
+
+    if (localStorageDataString) {
+
+        const localStorageData = JSON.parse(localStorageDataString);
+
+        const updatedLocalStorage = localStorageData.filter((record) => record.id != selectedRowId);
+        const updatedLocalStorageString = JSON.stringify(updatedLocalStorage);
+
+        localStorage.setItem('portfolioFormData', updatedLocalStorageString);
+    }
+    else {
+        console.log('NO SUCH RECORD EXISRS');
+    }
+
+
+}
+
+// Edit a record (record is retrieved based on the Portfolio Name - Unique Field)
+const popupateForm = () => {
+
+    // Part-1
+    const portfolioNameInput = document.getElementById('portfolioNameInput');
+    const portfolioTypeRadio = document.getElementsByName('portfolioType');
+    const investmentGoalSelect = document.getElementById('investmentGoal');
+    const investmentHorizonSelect = document.getElementById('investmentHorizon');
+    const riskToleranceRadio = document.getElementsByName('riskTolerance');
+
+    // Part-2
+    const annualInvestmentCapacityInput = document.getElementById('annualInvestmentCapacityInput');
+    const lumpSumAmountInput = document.getElementById('lumpSumAmountInput');
+    const monthlyContributionInput = document.getElementById('monthlyContributionInput');
+    // assets
+    const assetContainer = document.querySelector('.assetContainer');
+    while (assetContainer.children.length > 1) {
+        assetContainer.removeChild(assetContainer.lastElementChild)
+    }
+    const firstAsset = assetContainer.children[0];
+    firstAsset.querySelector('.assetClassDropdown').value = ''
+    firstAsset.querySelector('.percentageAllocationInput').value = ''
+    firstAsset.querySelector('.specificFundInputAuto').value = ''
+    firstAsset.querySelector('.getCurrentValue').value = ''
+
+    const investmentStyleCheckbox = document.getElementsByName('investmentStyle');
+
+    // Part-3
+    const automatedRebalancingRadio = document.getElementsByName('automatedRebalancing');
+    const taxSavingPrefernceRadio = document.getElementsByName('taxSavingPrefernce');
+    const financialGoalsInput = document.getElementById('financialGoalsInput');
+
+    const riskAckCheckbox = document.getElementById('riskAck');
+    const riskAcknowledgementLabel = document.getElementById('riskAckLabelText');
+
+    // Get existing data from localStorage
+    const localStorageDataString = localStorage.getItem('portfolioFormData');
+
+    const submitButton = document.getElementById('submitButton');
+
+    if (localStorageDataString) {
+
+        const localStorageData = JSON.parse(localStorageDataString);
+
+        const requiredRecordToEdit = localStorageData.filter(record => record.id == selectedRowId);
+
+        // Fill the form to edit the record
+
+        // Part-1
+        portfolioNameInput.value = requiredRecordToEdit[0].portfolioName;
+        // portfolioNameInput.disabled = true;
+        // portfolioNameInput.classList.add('disable')
+        // portfolioType
+        portfolioTypeRadio.forEach(radio => {
+            if (radio.value == requiredRecordToEdit[0].portfolioType) {
+                radio.checked = true;
+            }
+        })
+        investmentGoalSelect.value = requiredRecordToEdit[0].investmentGoal;
+        investmentHorizonSelect.value = requiredRecordToEdit[0].investmentHorizon;
+        // Risk Tolerance
+        riskToleranceRadio.forEach(radio => {
+            if (radio.value == requiredRecordToEdit[0].riskTolerance) {
+                radio.checked = true;
+            }
+        })
+
+        // Part-2
+        annualInvestmentCapacityInput.value = requiredRecordToEdit[0].annualInvestmentCapacity;
+        lumpSumAmountInput.value = requiredRecordToEdit[0].lumpSumAmount;
+        monthlyContributionInput.value = requiredRecordToEdit[0].monthlyContribution;
+
+        // assets
+        const assetCount = requiredRecordToEdit[0].assets.length;
+        for (let i = 0; i < assetCount - 1; i++) {
+            addAsset();
+        }
+
+        const assetContainer = document.querySelector('.assetContainer')
+        console.log(assetContainer);
+
+        for (let i = 0; i < assetCount; i++) {
+            const assetRow = document.getElementById(`asset-${i}`)
+            console.log(assetRow);
+            const assetClassSelect = assetRow.querySelector('.assetClassDropdown')
+            const percentageAllocationInput = assetRow.querySelector('.percentageAllocationInput')
+            const specificFundInput = assetRow.querySelector('.specificFundInputAuto')
+            const currentValueInput = assetRow.querySelector('.getCurrentValue')
+
+            assetClassSelect.value = requiredRecordToEdit[0].assets[i].assetClass;
+            // assetClassSelect.value = 'Equity';
+            percentageAllocationInput.value = requiredRecordToEdit[0].assets[i].percentageAllocation;
+            specificFundInput.value = requiredRecordToEdit[0].assets[i].specificFund;
+            currentValueInput.value = requiredRecordToEdit[0].assets[i].currentValue;
+
+        }
+
+        investmentStyleCheckbox.forEach(option => {
+            if (requiredRecordToEdit[0].investmentStyle.includes(option.value)) {
+                option.checked = true;
+            }
+        })
+
+        // Part-3
+        automatedRebalancingRadio.forEach(radio => {
+            if (radio.value == requiredRecordToEdit[0].automatedRebalancing) {
+                radio.checked = true;
+            }
+        })
+        taxSavingPrefernceRadio.forEach(radio => {
+            if (radio.value == requiredRecordToEdit[0].taxSavingPrefernce) {
+                radio.checked = true;
+            }
+        })
+        financialGoalsInput.value = requiredRecordToEdit[0].financialGoals;
+        riskAckCheckbox.checked = true;
+        riskAckCheckbox.disabled = true;
+        riskAckCheckbox.classList.add('disable');
+        riskAcknowledgementLabel.classList.add('disable');
+
+        submitButton.innerText = 'Update'
+        // submitButton.form = '';
+        submitButton.addEventListener('click', editRecord);
+    }
 }
 
 // Validations for part 1 of the form
@@ -450,7 +873,7 @@ const validatePart2AssetClass = () => {
             errorMessage.className = 'errorAssetClass'
             errorMessage.innerText = 'This is a required field!'
             errorMessage.style.color = 'red'
-            errorMessage.style.fontSize = '8px'
+            errorMessage.style.fontSize = '12px'
             assetDropdownContainer.append(errorMessage)
 
             deleteButton.style.alignSelf = 'center'
@@ -506,7 +929,7 @@ const validatePart2percentageAllocation = () => {
             errorMessage.className = 'errorPercentageAllocation'
             errorMessage.innerText = "This is a required Field!"
             errorMessage.style.color = "red"
-            errorMessage.style.fontSize = '13.65px'
+            errorMessage.style.fontSize = '12px'
             percentageAllocation.appendChild(errorMessage)
             deleteButton.style.alignSelf = 'center'
             presence = false
@@ -517,7 +940,7 @@ const validatePart2percentageAllocation = () => {
             errorMessage.className = 'errorPercentageAllocation'
             errorMessage.innerText = "Invalid Percentage!"
             errorMessage.style.color = "red"
-            errorMessage.style.fontSize = '13.65px'
+            errorMessage.style.fontSize = '12px'
             percentageAllocation.appendChild(errorMessage)
             deleteButton.style.alignSelf = 'center'
             presence = false
