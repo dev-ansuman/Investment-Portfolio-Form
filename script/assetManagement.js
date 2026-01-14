@@ -11,7 +11,7 @@ export const addAsset = () => {
                                         <label class="assetSubheading">Asset Class <span class="required">*</span></label>
                                     </div>
                                     <div class="assetDropdown">
-                                        <select name="assetClass" class="assetClassDropdown input assetSubheading" id="assetClass${assetId}" onchange="autoSuggestSpecificFund('assetClass${assetId}', 'specificFundAuto${assetId}')">
+                                        <select name="assetClass" class="assetClassDropdown input assetSubheading" id="assetClass${assetId}">
                                             <option value="">-- Select --</option>
                                             <option value="Equity">Stocks</option>
                                             <option value="Fixed Income">Bond</option>
@@ -28,7 +28,7 @@ export const addAsset = () => {
                                         <label class="assetSubheading">Percentage Allocation(%) <span class="required">*</span></label>
                                     </div>
                                     <div class="percentageAllocationContainer">
-                                        <input name="percentage" type="number" class="percentageAllocationInput input assetSubheading" id="percentageAllocationInput-${assetId}" onkeypress="validatePart2percentageAllocation()" onchange="validatePart2percentageAllocation()">
+                                        <input name="percentage" type="number" class="percentageAllocationInput input assetSubheading" id="percentageAllocationInput-${assetId}">
                                     </div>
                                 </div>
 
@@ -69,21 +69,6 @@ export const removeAsset = (id) => {
     const rowToRemove = document.getElementById(id)
 
     if (rowToRemove && assets.length > 1) {
-        rowToRemove.remove()
-        assetId--
+        rowToRemove.remove();
     }
-    // if (rowToRemove && assetId > 0) {
-    //     rowToRemove.remove()
-    //     assetId--
-    // }
-
-    // if (assetId == 1) {
-    //     const errorMessage = document.createElement("div")
-    //     errorMessage.className = 'errorPortfolioNameInput'
-    //     errorMessage.innerText = "This row cannot be removed"
-    //     errorMessage.style.color = "red"
-    //     rowToRemove.appendChild(errorMessage)
-    //     rowToRemove.style.display = 'flex'
-    //     // rowToRemove.style.flexDirection = 'column'
-    // }
 }

@@ -1,14 +1,14 @@
 import { validatePart1PortfolioName, validatePart1PortfolioType, validatePart1InvestmentGoal, validatePart1InvestmentHorizon, validatePart1RiskTolerance, validatePart2AnnualInvestmentCapacity, validatePart2AssetClass, autoSuggestSpecificFund, validatePart2percentageAllocation, validatePart3AutomatedRebalancing, validatePart3AckCheckBox } from './validations.js'
 
 import { showDataInTable } from './tableHandler.js'
-import { submitRecord, editRecord, emptyFields } from './formHandler.js'
+import { submitRecord, editRecord, emptyFields, selectRow, populateForm, removeRecord } from './formHandler.js'
 import { nextPage, previousPage } from './navigation.js'
 import { addAsset, removeAsset } from './assetManagement.js'
 
 // Real Time Validation
 // Part-1
 const portfolioNameInput = document.getElementById('portfolioNameInput')
-portfolioNameInput.addEventListener('keypress', () => {
+portfolioNameInput.addEventListener('input', () => {
     validatePart1PortfolioName();
 })
 
@@ -38,19 +38,20 @@ investmentHorizon.addEventListener('change', () => {
 
 // Part-2
 const annualInvestmentCapacityInput = document.getElementById('annualInvestmentCapacityInput');
-annualInvestmentCapacityInput.addEventListener('keypress', () => {
+annualInvestmentCapacityInput.addEventListener('input', () => {
     validatePart2AnnualInvestmentCapacity()
 })
 
-const assetClassDropdown = document.querySelector('.assetClassDropdown');
-assetClassDropdown.addEventListener('change', () => {
-    validatePart2AssetClass()
+const assetContainer = document.querySelector('.assetContainer');
+assetContainer.addEventListener('change', (event) => {
+    if (event.target.classList.contains('assetClassDropdown')) {
+        validatePart2AssetClass();
+    }
 })
-
-const percentageAllocationInput = document.querySelector('.percentageAllocationInput');
-console.log(percentageAllocationInput);
-percentageAllocationInput.addEventListener('keypress', () => {
-    validatePart2percentageAllocation();
+assetContainer.addEventListener('input', (event) => {
+    if (event.target.classList.contains('precentageAllocationInput')) {
+        validatePart2percentageAllocation();
+    }
 })
 
 // Part-3
@@ -69,8 +70,6 @@ riskAcknowledgement.forEach(option => {
 })
 
 
-
-
 // Navigation
 const forward = document.getElementById('forward')
 forward.addEventListener('click', () => {
@@ -86,19 +85,10 @@ previousButton.addEventListener('click', () => {
 const addAssetButton = document.getElementById('addAssetButton');
 addAssetButton.addEventListener('click', () => {
     addAsset();
-    assets = document.querySelectorAll('.assets');
-    const assetClassDropdown = document.querySelector('.assetClassDropdown');
-    assetClassDropdown.addEventListener('change', () => {
-        validatePart2AssetClass()
-    })
-
-    const percentageAllocationInput = document.querySelector('.percentageAllocationInput');
-    console.log(percentageAllocationInput);
-    percentageAllocationInput.addEventListener('keypress', () => {
-        validatePart2percentageAllocation();
-    })
 })
 
+
+// remove asset
 document.body.addEventListener('click', (event) => {
 
     if (event.target && event.target.matches('.removeAssetButton')) {
@@ -113,30 +103,51 @@ const portfolioForm = document.getElementById('portfolioForm');
 portfolioForm.addEventListener('submit', (event) => {
     event.preventDefault();
 
+    const submitButton = document.getElementById('submitButton');
+    let success = false
+
     if (submitButton.innerText == 'Update') {
-        editRecord();
+        success = editRecord();
     } else {
-        submitRecord();
+        success = submitRecord();
     }
 
-    emptyFields();
-    previousPage();
-    previousPage();
+    if (success) {
+        emptyFields();
+        previousPage();
+        previousPage();
+    }
 });
 
 
 showDataInTable();
 
-const tbody = document.getElementById('tableBody');
 // console.log(tbody);
+const formTable = document.getElementById('formTable')
 
-tbody.addEventListener('click', (event) => {
+formTable.addEventListener('click', (event) => {
     const row = event.target.closest('tr');
-    if(!row || row.parentElement !== tbody)
+    const tbody = document.getElementById('tableBody')
+    if (!row || !tbody || row.parentElement !== tbody)
         return
 
-    tbody.querySelectorAll('tr.selectedRecord').forEach(record => record.classList.remove('selectedRecord'))
-
-    row.classList.add('selectedRecord')
+    if (row.classList.contains('selectedRecord')) {
+        row.classList.remove('selectedRecord');
+        selectRow(null);
+    } else {
+        tbody.querySelectorAll('tr.selectedRecord').forEach(record => record.classList.remove('selectedRecord'))
+        row.classList.add('selectedRecord')
+        selectRow(row.dataset.id);
+    }
 
 });
+
+const editButton = document.getElementById('editRecordButton');
+editButton.addEventListener('click', () => {
+    populateForm()
+})
+
+const deleteButton = document.getElementById('deleteRecordButton');
+deleteButton.addEventListener('click', () => {
+    removeRecord()
+})

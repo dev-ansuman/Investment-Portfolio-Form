@@ -1,5 +1,5 @@
 import { removeRecord, selectRow } from './formHandler.js'
-import { popupateForm } from './formHandler.js'
+import { populateForm } from './formHandler.js'
 
 export const showDataInTable = () => {
     const localStorageDataString = localStorage.getItem('portfolioFormData')
@@ -8,20 +8,9 @@ export const showDataInTable = () => {
     if (localStorageDataString) {
 
         const localStorageData = JSON.parse(localStorageDataString);
-        console.log(localStorageData);
 
         const table = document.getElementById('formTable')
-        table.innerHTML = ''
-        // <colGroup>
-        //     <col style="width: 16%">
-        //     <col style="width: 10%">
-        //     <col style="width: 18%">
-        //     <col style="width: 18%">
-        //     <col style="width: 10%">
-        //     <col style="width: 10%">
-        //     <col style="width: 6%">
-        //     <col style="width: 12%">
-        // </colGroup>
+        // table.innerHTML = ''
         table.innerHTML = `
         <thead>
             <tr>
@@ -43,37 +32,37 @@ export const showDataInTable = () => {
         localStorageData.forEach(record => {
             const row = document.createElement('tr')
             row.dataset.id = record.id;
-            row.addEventListener('click', () => {
-                selectRow(record.id);
+            // row.addEventListener('click', () => {
+            //     selectRow(record.id);
 
-                const activeClass = 'selectedRecord';
-                tbody.addEventListener('click', (event) => {
-                    if (event.target && event.target.classList.contains(activeClass)) {
-                        const currentActive = document.querySelector('.' + activeClass);
-                        if (currentActive) {
-                            currentActive.classList.remove(activeClass);
-                        }
+            //     const activeClass = 'selectedRecord';
+            //     tbody.addEventListener('click', (event) => {
+            //         if (event.target && event.target.classList.contains(activeClass)) {
+            //             const currentActive = document.querySelector('.' + activeClass);
+            //             if (currentActive) {
+            //                 currentActive.classList.remove(activeClass);
+            //             }
                         
-                        event.target.classList.add(activeClass);
-                    }
-                });
+            //             event.target.classList.add(activeClass);
+            //         }
+            //     });
 
 
-                row.classList.add('selectedRecord')
-                const editButton = document.getElementById('editRecordButton');
-                editButton.addEventListener('click', () => {
-                    popupateForm()
-                })
-            })
+            //     row.classList.add('selectedRecord')
+            //     const editButton = document.getElementById('editRecordButton');
+            //     editButton.addEventListener('click', () => {
+            //         populateForm()
+            //     })
+            // })
 
-            row.addEventListener('click', () => {
-                selectRow(record.id);
-                row.style.background = 'red'
-                const deleteButton = document.getElementById('deleteRecordButton');
-                deleteButton.addEventListener('click', () => {
-                    removeRecord();
-                })
-            })
+            // row.addEventListener('click', () => {
+            //     selectRow(record.id);
+            //     row.style.background = 'red'
+            //     const deleteButton = document.getElementById('deleteRecordButton');
+            //     deleteButton.addEventListener('click', () => {
+            //         removeRecord();
+            //     })
+            // })
 
             row.innerHTML = `
             <td>${record.portfolioName}</td>

@@ -12,7 +12,7 @@ export const validatePart1PortfolioName = () => {
         checkError.remove();
     }
 
-    if (portfolioNameInput.value.length < 0) {
+    if (portfolioNameInput.value.trim().length === 0) {
         const errorMessage = document.createElement("div")
         errorMessage.className = 'errorPortfolioNameInput'
         errorMessage.innerText = "This is a required Field!"
@@ -21,19 +21,19 @@ export const validatePart1PortfolioName = () => {
         return false
     }
 
-    if (portfolioNameInput.value.length <= 2) {
+    if (!checkName(portfolioNameInput.value.trim())) {
         const errorMessage = document.createElement("div")
         errorMessage.className = 'errorPortfolioNameInput'
-        errorMessage.innerText = "atleast 3 characters required!"
+        errorMessage.innerText = "Name cannot contain Numbers or Symbols!"
         errorMessage.style.color = "red"
         portfolioName.append(errorMessage)
         return false
     }
 
-    if (!checkName(portfolioNameInput.value)) {
+    if (portfolioNameInput.value.trim().length <= 2) {
         const errorMessage = document.createElement("div")
         errorMessage.className = 'errorPortfolioNameInput'
-        errorMessage.innerText = "Name cannot contain Numbers or Symbols!"
+        errorMessage.innerText = "atleast 3 characters required!"
         errorMessage.style.color = "red"
         portfolioName.append(errorMessage)
         return false

@@ -4,7 +4,6 @@ export const checkName = (str) => {
 }
 
 export const checkNumber = (str) => {
-    const regex1 = /^[1-9]+\.[0-9]+$/;
-    const regex2 = /^[1-9]+$/;
-    return regex1.test(str) || regex2.test(str); // Use the test() method to check for a match
+    const num = Number(str)
+    return !isNaN(num);
 }
