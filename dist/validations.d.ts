@@ -1,0 +1,10 @@
+export declare const validatePart1PortfolioName: () => boolean;
+export declare const validatePart1PortfolioType: () => boolean;
+export declare const validatePart1InvestmentGoal: () => boolean;
+export declare const validatePart1InvestmentHorizon: () => boolean;
+export declare const validatePart1RiskTolerance: () => boolean;
+export declare const validatePart2AnnualInvestmentCapacity: () => boolean;
+export declare const validatePart2AssetClass: () => boolean;
+export declare const validatePart2percentageAllocation: () => boolean;
+export declare const validatePart3AutomatedRebalancing: () => boolean;
+export declare const validatePart3AckCheckBox: () => boolean;

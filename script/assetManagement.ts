@@ -1,7 +1,7 @@
-let assetId = 0
+let assetId: number = 0
 export const addAsset = () => {
     assetId++
-    const newRow = document.createElement('div')
+    const newRow: HTMLElement = document.createElement('div')
     newRow.className = 'assets'
     newRow.id = `asset-${assetId}`
 
@@ -60,30 +60,15 @@ export const addAsset = () => {
                                 </div>
     `
 
-    const assetContainer = document.querySelector('.assetContainer')
-    assetContainer.appendChild(newRow)
+    const assetContainer: HTMLElement | null = document.querySelector('.assetContainer')
+    assetContainer?.appendChild(newRow)
 }
 
-export const removeAsset = (id) => {
-    const assets = document.querySelectorAll('.assets')
-    const rowToRemove = document.getElementById(id)
+export const removeAsset = (id: string) => {
+    const assets: NodeListOf<HTMLElement> | null = document.querySelectorAll('.assets')
+    const rowToRemove: HTMLElement | null = document.getElementById(id)
 
-    if (rowToRemove && assets.length > 1) {
+    if (rowToRemove && assets?.length > 1) {
         rowToRemove.remove()
-        assetId--
     }
-    // if (rowToRemove && assetId > 0) {
-    //     rowToRemove.remove()
-    //     assetId--
-    // }
-
-    // if (assetId == 1) {
-    //     const errorMessage = document.createElement("div")
-    //     errorMessage.className = 'errorPortfolioNameInput'
-    //     errorMessage.innerText = "This row cannot be removed"
-    //     errorMessage.style.color = "red"
-    //     rowToRemove.appendChild(errorMessage)
-    //     rowToRemove.style.display = 'flex'
-    //     // rowToRemove.style.flexDirection = 'column'
-    // }
 }

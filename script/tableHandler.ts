@@ -1,28 +1,18 @@
-import { removeRecord, selectRow } from './formHandler.js'
-import { popupateForm } from './formHandler.js'
+import { removeRecord, selectRow, popupateForm } from './formHandler.ts'
 
 export const showDataInTable = () => {
-    const localStorageDataString = localStorage.getItem('portfolioFormData')
+    const localStorageDataString: string | null = localStorage.getItem('portfolioFormData')
 
 
     if (localStorageDataString) {
 
-        const localStorageData = JSON.parse(localStorageDataString);
-        console.log(localStorageData);
+        const localStorageData: any[] = JSON.parse(localStorageDataString);
+        // console.log(localStorageData);
 
-        const table = document.getElementById('formTable')
-        table.innerHTML = ''
-        // <colGroup>
-        //     <col style="width: 16%">
-        //     <col style="width: 10%">
-        //     <col style="width: 18%">
-        //     <col style="width: 18%">
-        //     <col style="width: 10%">
-        //     <col style="width: 10%">
-        //     <col style="width: 6%">
-        //     <col style="width: 12%">
-        // </colGroup>
-        table.innerHTML = `
+        const table = document.getElementById('formTable') as HTMLTableElement | null
+        if (table) {
+            table.innerHTML = ''
+            table.innerHTML = `
         <thead>
             <tr>
                 <th>Portfolio Name</th>
@@ -38,7 +28,9 @@ export const showDataInTable = () => {
 
         <tbody id="tableBody"></tbody>
     `
-        const tbody = document.getElementById('tableBody');
+        }
+
+        const tbody = document.getElementById('tableBody') as HTMLTableSectionElement
 
         localStorageData.forEach(record => {
             const row = document.createElement('tr')
@@ -48,19 +40,22 @@ export const showDataInTable = () => {
 
                 const activeClass = 'selectedRecord';
                 tbody.addEventListener('click', (event) => {
-                    if (event.target && event.target.classList.contains(activeClass)) {
+                    const target = event.target as HTMLElement;
+                    if (!target) return
+
+                    if (target.classList.contains(activeClass)) {
                         const currentActive = document.querySelector('.' + activeClass);
                         if (currentActive) {
                             currentActive.classList.remove(activeClass);
                         }
-                        
-                        event.target.classList.add(activeClass);
+
+                        target.classList.add(activeClass);
                     }
                 });
 
 
                 row.classList.add('selectedRecord')
-                const editButton = document.getElementById('editRecordButton');
+                const editButton = document.getElementById('editRecordButton') as HTMLButtonElement;
                 editButton.addEventListener('click', () => {
                     popupateForm()
                 })
@@ -69,7 +64,7 @@ export const showDataInTable = () => {
             row.addEventListener('click', () => {
                 selectRow(record.id);
                 row.style.background = 'red'
-                const deleteButton = document.getElementById('deleteRecordButton');
+                const deleteButton = document.getElementById('deleteRecordButton') as HTMLButtonElement;
                 deleteButton.addEventListener('click', () => {
                     removeRecord();
                 })

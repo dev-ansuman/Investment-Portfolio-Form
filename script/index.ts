@@ -1,9 +1,9 @@
-import { validatePart1PortfolioName, validatePart1PortfolioType, validatePart1InvestmentGoal, validatePart1InvestmentHorizon, validatePart1RiskTolerance, validatePart2AnnualInvestmentCapacity, validatePart2AssetClass, autoSuggestSpecificFund, validatePart2percentageAllocation, validatePart3AutomatedRebalancing, validatePart3AckCheckBox } from './validations.js'
+import { validatePart1PortfolioName, validatePart1PortfolioType, validatePart1InvestmentGoal, validatePart1InvestmentHorizon, validatePart1RiskTolerance, validatePart2AnnualInvestmentCapacity, validatePart2AssetClass, validatePart2percentageAllocation, validatePart3AutomatedRebalancing, validatePart3AckCheckBox } from './validations.ts'
 
-import { showDataInTable } from './tableHandler.js'
-import { submitRecord, editRecord, emptyFields } from './formHandler.js'
+import { showDataInTable } from './tableHandler.ts'
+import { submitRecord, editRecord, emptyFields } from './formHandler.ts'
 import { nextPage, previousPage } from './navigation.js'
-import { addAsset, removeAsset } from './assetManagement.js'
+import { addAsset, removeAsset } from './assetManagement.ts'
 
 // Real Time Validation
 // Part-1
@@ -132,7 +132,7 @@ const tbody = document.getElementById('tableBody');
 
 tbody.addEventListener('click', (event) => {
     const row = event.target.closest('tr');
-    if(!row || row.parentElement !== tbody)
+    if (!row || row.parentElement !== tbody)
         return
 
     tbody.querySelectorAll('tr.selectedRecord').forEach(record => record.classList.remove('selectedRecord'))
