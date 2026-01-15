@@ -1,4 +1,6 @@
 export declare const validatePart1PortfolioName: () => boolean;
+export declare const getSelectedRecordID: (id: number | null) => void;
+export declare const nameTaken: () => boolean;
 export declare const validatePart1PortfolioType: () => boolean;
 export declare const validatePart1InvestmentGoal: () => boolean;
 export declare const validatePart1InvestmentHorizon: () => boolean;

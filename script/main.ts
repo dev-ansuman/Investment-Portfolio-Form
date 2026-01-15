@@ -1,4 +1,4 @@
-import { validatePart1PortfolioName, validatePart1PortfolioType, validatePart1InvestmentGoal, validatePart1InvestmentHorizon, validatePart1RiskTolerance, validatePart2AnnualInvestmentCapacity, validatePart2AssetClass, validatePart2percentageAllocation, validatePart3AutomatedRebalancing, validatePart3AckCheckBox } from './validations.js'
+import { validatePart1PortfolioName, validatePart1PortfolioType, validatePart1InvestmentGoal, validatePart1InvestmentHorizon, validatePart1RiskTolerance, validatePart2AnnualInvestmentCapacity, validatePart2AssetClass, validatePart2percentageAllocation, validatePart3AutomatedRebalancing, validatePart3AckCheckBox, getSelectedRecordID } from './validations.js'
 
 import { showDataInTable } from './tableHandler.js'
 import { submitRecord, editRecord, emptyFields, popupateForm, removeRecord, selectRow } from './formHandler.js'
@@ -145,9 +145,11 @@ formTable?.addEventListener('click', (event) => {
     if(row!.classList.contains('selectedRecord')) {
         row!.classList.remove('selectedRecord');
         selectRow(null)
+        getSelectedRecordID(null)
     }else {
         tbody?.querySelectorAll('tr.selectedRecord').forEach(record => record.classList.remove('selectedRecord'));
         row!.classList.add('selectedRecord');
         selectRow(Number(row!.dataset.id))
+        getSelectedRecordID(Number(row!.dataset.id))
     }
 })

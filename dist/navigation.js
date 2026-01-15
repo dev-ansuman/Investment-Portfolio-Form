@@ -1,4 +1,4 @@
-import { validatePart1PortfolioName, validatePart1PortfolioType, validatePart1InvestmentGoal, validatePart1InvestmentHorizon, validatePart1RiskTolerance, validatePart2AnnualInvestmentCapacity, validatePart2AssetClass, validatePart2percentageAllocation } from './validations.js';
+import { validatePart1PortfolioName, validatePart1PortfolioType, validatePart1InvestmentGoal, validatePart1InvestmentHorizon, validatePart1RiskTolerance, validatePart2AnnualInvestmentCapacity, validatePart2AssetClass, validatePart2percentageAllocation, nameTaken } from './validations.js';
 const part1 = document.getElementById('part1');
 const part2 = document.getElementById('part2');
 const part3 = document.getElementById('part3');
@@ -38,11 +38,12 @@ export const nextPage = () => {
         validatePart1InvestmentGoal();
         validatePart1InvestmentHorizon();
         validatePart1RiskTolerance();
-        let moveToNextPage = validatePart1PortfolioName() &&
+        nameTaken();
+        let moveToNextPage = nameTaken() && validatePart1PortfolioName() &&
             validatePart1PortfolioType() &&
             validatePart1InvestmentGoal() &&
             validatePart1InvestmentHorizon() &&
-            validatePart1RiskTolerance();
+            validatePart1RiskTolerance() && nameTaken();
         if (moveToNextPage) {
             part1.style.display = 'none';
             part2.style.display = '';

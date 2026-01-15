@@ -2,7 +2,7 @@ import { validatePart3AutomatedRebalancing, validatePart3AckCheckBox } from './v
 import { showDataInTable } from './tableHandler.js'
 import { addAsset } from './assetManagement.js'
 
-import type { Asset, PortfolioFormData } from './types.ts'
+import type { Asset, PortfolioFormData } from './common/types.js'
 
 const getFormData = (id: number | null) => {
     const form = document.getElementById('portfolioForm') as HTMLFormElement | null

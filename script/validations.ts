@@ -1,5 +1,6 @@
-import { checkName, checkNumber } from './utils.js'
-import { showError, checkExistingError } from './error.js'
+import { checkName, checkNumber, checkExistingPorfolioName } from './common/validator.js'
+import { showError, checkExistingError } from './common/error.js'
+import { MESSAGE } from './common/messages.js'
 
 // Validations for part 1 of the form
 
@@ -13,20 +14,41 @@ export const validatePart1PortfolioName = (): boolean => {
     if (portfolioNameInput) {
 
         if (portfolioNameInput.value.trim().length === 0) {
-            showError('errorPortfolioNameInput', 'portfolioInput', 'append', '13.65px', 'This is a required Field!', '')
+            showError('errorPortfolioNameInput', 'portfolioInput', 'append', '13.65px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '')
             return false
         }
 
         if (!checkName(portfolioNameInput.value.trim())) {
-            showError('errorPortfolioNameInput', 'portfolioInput', 'append', '13.65px', 'Name cannot contain Numbers or Symbols!', '')
+            showError('errorPortfolioNameInput', 'portfolioInput', 'append', '13.65px', MESSAGE.ERROR_MESSAGE.INVALID_NAME, '')
             return false
         }
 
         if (portfolioNameInput.value.trim().length <= 2) {
-            showError('errorPortfolioNameInput', 'portfolioInput', 'append', '13.65px', 'atleast 3 characters required!', '')
+            showError('errorPortfolioNameInput', 'portfolioInput', 'append', '13.65px', MESSAGE.ERROR_MESSAGE.MIN_CHARACTER, '')
             return false
         }
 
+    }
+
+    return true
+}
+
+let recordID: number | null = null;
+export const getSelectedRecordID = (id: number | null) => {
+    recordID = id ? Number(id) : null;
+}
+
+export const nameTaken = (): boolean => {
+
+    const portfolioNameInput = document.getElementById("portfolioNameInput") as HTMLInputElement | null
+
+    checkExistingError('errorPortfolioNameInput')
+
+    if (portfolioNameInput) {
+        if (checkExistingPorfolioName(portfolioNameInput.value.trim(), recordID)) {
+            showError('errorPortfolioNameInput', 'portfolioInput', 'append', '13.65px', MESSAGE.ERROR_MESSAGE.NAME_EXISTS, '')
+            return false
+        }
     }
 
     return true
@@ -53,7 +75,7 @@ export const validatePart1PortfolioType = (): boolean => {
     }
 
     if (!isValid) {
-        showError('errorPortfolioTypeInput', 'portfolioType', 'append', '13.65px', 'This is a required Field!', '')
+        showError('errorPortfolioTypeInput', 'portfolioType', 'append', '13.65px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '')
     }
 
     return isValid;
@@ -66,7 +88,7 @@ export const validatePart1InvestmentGoal = () => {
     checkExistingError('errorInvestmentGoal')
 
     if (selectedField.value === '') {
-        showError('errorInvestmentGoal', 'investmentGoalDropdown', 'append', '13.65px', 'This is a required field!', '')
+        showError('errorInvestmentGoal', 'investmentGoalDropdown', 'append', '13.65px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '')
         return false
     }
 
@@ -79,10 +101,10 @@ export const validatePart1InvestmentHorizon = () => {
 
     checkExistingError('errorInvestmentHorizon')
 
-        if (selectedField.value === '') {
-            showError('errorInvestmentHorizon', 'investmentHorizonDropdown', 'append', '13.65px', 'This is a required Field!', '')
-            return false
-        }
+    if (selectedField.value === '') {
+        showError('errorInvestmentHorizon', 'investmentHorizonDropdown', 'append', '13.65px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '')
+        return false
+    }
 
     return true
 }
@@ -108,7 +130,7 @@ export const validatePart1RiskTolerance = () => {
 
     if (!presence) {
 
-        showError('errorRiskTolerance', 'riskTolerance', 'append', '13.65px', 'This is a required Field!', '')
+        showError('errorRiskTolerance', 'riskTolerance', 'append', '13.65px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '')
     }
 
     return presence
@@ -125,7 +147,7 @@ export const validatePart2AnnualInvestmentCapacity = () => {
 
     if (annualInvestmentCapacityInput?.value === '') {
 
-        showError('errorAnnualInvestmentCapacityInput', 'annualCapacityContainer', 'after', '13.65px', 'This is a required field!', '')
+        showError('errorAnnualInvestmentCapacityInput', 'annualCapacityContainer', 'after', '13.65px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '')
 
         isValid = false
     }
@@ -133,7 +155,7 @@ export const validatePart2AnnualInvestmentCapacity = () => {
     if (annualInvestmentCapacityInput) {
         if (!checkNumber(annualInvestmentCapacityInput.value) || Number(annualInvestmentCapacityInput.value) < 1) {
 
-            showError('errorAnnualInvestmentCapacityInput', 'annualCapacityContainer', 'after', '13.65px', 'Invalid Input! Must be a number greater than 1!', '')
+            showError('errorAnnualInvestmentCapacityInput', 'annualCapacityContainer', 'after', '13.65px', MESSAGE.ERROR_MESSAGE.INVALID_NUMBER_INPUT, '')
 
             isValid = false
         }
@@ -159,7 +181,7 @@ export const validatePart2AssetClass = () => {
 
         if (assetClass?.value === '') {
 
-            showError('errorAssetClass', 'assetDropdown', 'append', '12px', 'This is a required field!' ,'')
+            showError('errorAssetClass', 'assetDropdown', 'append', '12px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '')
 
             isValid = false
         }
@@ -193,12 +215,12 @@ export const validatePart2percentageAllocation = () => {
         checkExistingError('errorPercentageAllocation')
 
         if (percentageAllocationInput?.value === '') {
-            showError('errorPercentageAllocation', 'percentageAllocation', 'append', '12px', 'This is a required field!' ,'')
+            showError('errorPercentageAllocation', 'percentageAllocation', 'append', '12px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '')
             isValid = false
         }
 
         else if (Number(percentageAllocationInput?.value) < 1 || Number(percentageAllocationInput?.value) > 100) {
-            showError('errorPercentageAllocation', 'percentageAllocation', 'append', '12px', 'Invalid Percentage!', '')
+            showError('errorPercentageAllocation', 'percentageAllocation', 'append', '12px', MESSAGE.ERROR_MESSAGE.INVALID_PERCENTAGE, '')
             isValid = false
         }
     })
@@ -227,7 +249,7 @@ export const validatePart3AutomatedRebalancing = () => {
 
     if (!isValid) {
 
-        showError('errorAutomatedRebalancing', 'optContainer', 'append', '13.65px', 'This is a required Field!', '')
+        showError('errorAutomatedRebalancing', 'optContainer', 'append', '13.65px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '')
     }
 
     return isValid
@@ -243,7 +265,7 @@ export const validatePart3AckCheckBox = () => {
 
     if (checkBoxElement?.checked == false) {
 
-        showError('errorAckCheck', 'riskAcknowledgementContainer', 'after', '13.65px', 'This is a required Field!', '6%')
+        showError('errorAckCheck', 'riskAcknowledgementContainer', 'after', '13.65px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '6%')
 
         return false
     }
