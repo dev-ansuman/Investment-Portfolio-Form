@@ -1,10 +1,9 @@
-let assetId: number = 0
+let assetId = 0;
 export const addAsset = () => {
-    assetId++
-    const newRow: HTMLElement = document.createElement('div')
-    newRow.className = 'assets'
-    newRow.id = `asset-${assetId}`
-
+    assetId++;
+    const newRow = document.createElement('div');
+    newRow.className = 'assets';
+    newRow.id = `asset-${assetId}`;
     newRow.innerHTML = `
         <div class="assetClass subAssetDiv">
                                     <div class="assetLabel">
@@ -58,17 +57,14 @@ export const addAsset = () => {
 
 
                                 </div>
-    `
-
-    const assetContainer: HTMLElement | null = document.querySelector('.assetContainer')
-    assetContainer?.appendChild(newRow)
-}
-
-export const removeAsset = (id: string) => {
-    const assets: NodeListOf<HTMLElement> | null = document.querySelectorAll('.assets')
-    const rowToRemove: HTMLElement | null = document.getElementById(id)
-
+    `;
+    const assetContainer = document.querySelector('.assetContainer');
+    assetContainer?.appendChild(newRow);
+};
+export const removeAsset = (id) => {
+    const assets = document.querySelectorAll('.assets');
+    const rowToRemove = document.getElementById(id);
     if (rowToRemove && assets?.length > 1) {
-        rowToRemove.remove()
+        rowToRemove.remove();
     }
-}
+};

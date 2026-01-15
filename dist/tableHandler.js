@@ -1,13 +1,9 @@
 export const showDataInTable = () => {
-    const localStorageDataString: string | null = localStorage.getItem('portfolioFormData')
-
-
+    const localStorageDataString = localStorage.getItem('portfolioFormData');
     if (localStorageDataString) {
-
-        const localStorageData: any[] = JSON.parse(localStorageDataString);
+        const localStorageData = JSON.parse(localStorageDataString);
         // console.log(localStorageData);
-
-        const table = document.getElementById('formTable') as HTMLTableElement | null
+        const table = document.getElementById('formTable');
         if (table) {
             table.innerHTML = `
         <thead>
@@ -24,15 +20,12 @@ export const showDataInTable = () => {
         </thead>
 
         <tbody id="tableBody"></tbody>
-    `
+    `;
         }
-
-        const tbody = document.getElementById('tableBody') as HTMLTableSectionElement
-
+        const tbody = document.getElementById('tableBody');
         localStorageData.forEach(record => {
-            const row = document.createElement('tr')
+            const row = document.createElement('tr');
             row.dataset.id = record.id;
-
             row.innerHTML = `
             <td>${record.portfolioName}</td>
             <td>${record.portfolioType}</td>
@@ -42,12 +35,11 @@ export const showDataInTable = () => {
             <td>${record.annualInvestmentCapacity}</td>
             <td>${record.assets.length}</td>
             <td>${record.automatedRebalancing}</td>
-        `
-            tbody.appendChild(row)
-        })
-
+        `;
+            tbody.appendChild(row);
+        });
     }
     else {
-        console.log('NO DATA TO DISPLAY')
+        console.log('NO DATA TO DISPLAY');
     }
-}
+};

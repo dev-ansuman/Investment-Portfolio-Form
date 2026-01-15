@@ -1,19 +1,26 @@
-import { validatePart3AutomatedRebalancing, validatePart3AckCheckBox } from './validations.ts'
-import { showDataInTable } from './tableHandler.ts'
-import { addAsset } from './assetManagement.ts'
+import { validatePart3AutomatedRebalancing, validatePart3AckCheckBox } from './validations.js'
+import { showDataInTable } from './tableHandler.js'
+import { addAsset } from './assetManagement.js'
 
-const getFormData = () => {
+import type { Asset, PortfolioFormData } from './types.ts'
+
+const getFormData = (id: number | null) => {
     const form = document.getElementById('portfolioForm') as HTMLFormElement | null
 
     if (form) {
-        const assetData: any[] = [];
+        const assetData: Asset[] = [];
         const assets: NodeListOf<HTMLDivElement> = document.querySelectorAll('.assets');
         assets.forEach((asset) => {
-            const data = {};
-            data.assetClass = asset.querySelector('.assetClassDropdown').value;
-            data.percentageAllocation = asset.querySelector('.percentageAllocationInput').value;
-            data.specificFund = asset.querySelector('.specificFundInputAuto').value;
-            data.currentValue = asset.querySelector('.getCurrentValue').value;
+            const assetClass: HTMLInputElement | null = asset.querySelector('.assetClassDropdown');
+            const percentageAllocation: HTMLInputElement | null = asset.querySelector('.percentageAllocationInput');
+            const specificFund: HTMLInputElement | null = asset.querySelector('.specificFundInputAuto');
+            const currentValue: HTMLInputElement | null = asset.querySelector('.getCurrentValue');
+            const data: Asset = {
+                assetClass: assetClass?.value,
+                percentageAllocation: percentageAllocation?.value,
+                specificFund: specificFund?.value,
+                currentValue: currentValue?.value
+            };
 
             assetData.push(data);
         })
@@ -26,9 +33,8 @@ const getFormData = () => {
             }
         });
 
-        let id: null | number
-
-        const formData = {
+        const formData: PortfolioFormData = {
+            id,
             portfolioName: form.portfolioName.value.trim(),
             portfolioType: form.portfolioType.value,
             investmentGoal: form.investmentGoal.value,
@@ -52,7 +58,7 @@ const getFormData = () => {
 
 }
 
-const formSubmit = () => {
+const submitValidation = () => {
 
     validatePart3AutomatedRebalancing()
     validatePart3AckCheckBox()
@@ -66,45 +72,36 @@ const formSubmit = () => {
 
 export const submitRecord = () => {
 
-    if (formSubmit()) {
-        const formData = getFormData();
+    if (submitValidation()) {
+        const formData: PortfolioFormData | undefined = getFormData(null);
+        let localStorageDataString: string | null = localStorage.getItem('portfolioFormData');
 
-        if (formData) {
-            let localStorageDataString: string | null = localStorage.getItem('portfolioFormData');
+        let localStorageData: PortfolioFormData[] = localStorageDataString ? JSON.parse(localStorageDataString) : []
+        const nextId = localStorageData.length === 0 ? 1 : localStorageData[localStorageData.length - 1]!.id! + 1;
 
-            let localStorageData: any[], newId: number;
+        formData!.id = nextId;
+        localStorageData.push(formData!)
 
-            if (localStorageDataString) {
-                localStorageData = JSON.parse(localStorageDataString);
-                if (localStorageData.length > 0) {
-                    newId = localStorageData[localStorageData.length - 1].id + 1;
-                }
-            } else {
-                localStorageData = [];
-                newId = 1;
-            }
+        localStorageDataString = JSON.stringify(localStorageData);
+        localStorage.setItem('portfolioFormData', localStorageDataString);
 
-            formData.id = newId;
+        showDataInTable();
 
-            // console.log(formData);
-            localStorageData.push(formData);
-            localStorageDataString = JSON.stringify(localStorageData);
-            localStorage.setItem('portfolioFormData', localStorageDataString);
-
-            showDataInTable();
-        }
+        return true;
     }
 
+    return false;
 }
 
 export const editRecord = () => {
 
-    const formData = getFormData();
+    const formData: PortfolioFormData | undefined = getFormData(selectedRowId);
 
     let localStorageDataString: string | null = localStorage.getItem('portfolioFormData');
+
     if (localStorageDataString) {
         const localStorageData: any[] = JSON.parse(localStorageDataString);
-        const index: number = localStorageData.findIndex(record => record.id == selectedRowId)
+        const index: number = localStorageData.findIndex(record => record.id === selectedRowId)
 
         if (index != -1) {
             localStorageData[index] = formData;
@@ -114,24 +111,41 @@ export const editRecord = () => {
         localStorage.setItem('portfolioFormData', localStorageDataString);
 
         showDataInTable();
+        emptyFields();
+        const riskAckCheckbox = document.getElementById('riskAck') as HTMLInputElement | null;
+        const riskAcknowledgementLabel = document.getElementById('riskAckLabelText') as HTMLLabelElement | null;
+        const submitButton = document.getElementById('submitButton') as HTMLButtonElement | null
+        riskAckCheckbox!.checked = false;
+        riskAckCheckbox!.disabled = false;
+        riskAckCheckbox!.classList.remove('disable');
+        riskAcknowledgementLabel!.classList.remove('disable');
+
+        submitButton!.innerText = 'Submit'
+
+        return true;
     }
+    return false
 }
 
 // Remove a record (record is retrieved based on the Portfolio Name - Unique Field)
 export const removeRecord = () => {
+
+    if (!selectedRowId) {
+        alert('Please select a row to delete!')
+    }
+
     const localStorageDataString: string | null = localStorage.getItem('portfolioFormData')
 
     if (localStorageDataString) {
 
         const localStorageData: any[] = JSON.parse(localStorageDataString);
 
-        const updatedLocalStorage: any[] = localStorageData.filter((record) => record.id != selectedRowId);
+        const updatedLocalStorage: any[] = localStorageData.filter((record) => record.id !== selectedRowId);
         const updatedLocalStorageString: string = JSON.stringify(updatedLocalStorage);
 
         localStorage.setItem('portfolioFormData', updatedLocalStorageString);
 
-        const table = document.getElementById('formTable') as HTMLTableElement
-        table.innerHTML = ''
+        selectedRowId = null
 
         showDataInTable()
     }
@@ -145,6 +159,10 @@ export const removeRecord = () => {
 // Edit a record (record is retrieved based on the Portfolio Name - Unique Field)
 export const popupateForm = () => {
 
+    if (!selectedRowId) {
+        alert('Please select a row to edit!');
+    }
+
     // Part-1
     const portfolioNameInput = document.getElementById('portfolioNameInput') as HTMLInputElement;
     const portfolioTypeRadio = document.getElementsByName('portfolioType') as NodeListOf<HTMLInputElement>;
@@ -157,15 +175,28 @@ export const popupateForm = () => {
     const lumpSumAmountInput = document.getElementById('lumpSumAmountInput') as HTMLInputElement;
     const monthlyContributionInput = document.getElementById('monthlyContributionInput') as HTMLInputElement;
     // assets
-    const assetContainer = document.querySelector('.assetContainer');
-    while (assetContainer.children.length > 1) {
-        assetContainer.removeChild(assetContainer.lastElementChild)
+    const assetContainer: HTMLDivElement | null = document.querySelector('.assetContainer');
+    while (assetContainer!.children.length > 1) {
+        assetContainer!.removeChild(assetContainer!.lastElementChild!)
     }
-    const firstAsset = assetContainer.children[0];
-    firstAsset.querySelector('.assetClassDropdown').value = ''
-    firstAsset.querySelector('.percentageAllocationInput').value = ''
-    firstAsset.querySelector('.specificFundInputAuto').value = ''
-    firstAsset.querySelector('.getCurrentValue').value = ''
+    const firstAsset = assetContainer!.children[0];
+
+    const assetClassDropdown: HTMLSelectElement | null = firstAsset!.querySelector('.assetClassDropdown')
+    if (assetClassDropdown) {
+        assetClassDropdown.value = ''
+    }
+    const percentageAllocationInput: HTMLSelectElement | null = firstAsset!.querySelector('.percentageAllocationInput')
+    if (percentageAllocationInput) {
+        percentageAllocationInput.value = ''
+    }
+    const specificFundInputAuto: HTMLSelectElement | null = firstAsset!.querySelector('.specificFundInputAuto')
+    if (specificFundInputAuto) {
+        specificFundInputAuto.value = ''
+    }
+    const getCurrentValue: HTMLSelectElement | null = firstAsset!.querySelector('.getCurrentValue')
+    if (getCurrentValue) {
+        getCurrentValue.value = ''
+    }
 
     const investmentStyleCheckbox = document.getElementsByName('investmentStyle') as NodeListOf<HTMLInputElement>;
 
@@ -184,81 +215,83 @@ export const popupateForm = () => {
 
     if (localStorageDataString) {
 
-        const localStorageData: any[] = JSON.parse(localStorageDataString);
+        const localStorageData: PortfolioFormData[] = JSON.parse(localStorageDataString);
 
-        const requiredRecordToEdit: any[] = localStorageData.filter(record => record.id == selectedRowId);
+        const requiredRecordToEdit: PortfolioFormData[] = localStorageData.filter(record => record.id === selectedRowId);
 
-        // Fill the form to edit the record
+        if (requiredRecordToEdit[0]) {
+            // Fill the form to edit the record
 
-        // Part-1
-        portfolioNameInput.value = requiredRecordToEdit[0].portfolioName;
+            // Part-1
+            portfolioNameInput.value = requiredRecordToEdit[0].portfolioName;
 
-        portfolioTypeRadio.forEach(radio => {
-            if (radio.value == requiredRecordToEdit[0].portfolioType) {
-                radio.checked = true;
+            portfolioTypeRadio.forEach(radio => {
+                if (radio.value == requiredRecordToEdit[0]?.portfolioType) {
+                    radio.checked = true;
+                }
+            })
+            investmentGoalSelect.value = requiredRecordToEdit[0].investmentGoal;
+            investmentHorizonSelect.value = requiredRecordToEdit[0].investmentHorizon;
+            // Risk Tolerance
+            riskToleranceRadio.forEach(radio => {
+                if (radio.value == requiredRecordToEdit[0]?.riskTolerance) {
+                    radio.checked = true;
+                }
+            })
+
+            // Part-2
+            annualInvestmentCapacityInput.value = requiredRecordToEdit[0].annualInvestmentCapacity;
+            lumpSumAmountInput.value = requiredRecordToEdit[0].lumpSumAmount;
+            monthlyContributionInput.value = requiredRecordToEdit[0].monthlyContribution;
+
+            // assets
+            const assetCount: number = requiredRecordToEdit[0].assets.length;
+            for (let i = 0; i < assetCount - 1; i++) {
+                addAsset();
             }
-        })
-        investmentGoalSelect.value = requiredRecordToEdit[0].investmentGoal;
-        investmentHorizonSelect.value = requiredRecordToEdit[0].investmentHorizon;
-        // Risk Tolerance
-        riskToleranceRadio.forEach(radio => {
-            if (radio.value == requiredRecordToEdit[0].riskTolerance) {
-                radio.checked = true;
+
+            for (let i = 0; i < assetCount; i++) {
+                const assetRow = document.getElementById(`asset-${i}`) as HTMLDivElement | null
+
+                const assetClassSelect = assetRow!.querySelector('.assetClassDropdown') as HTMLSelectElement | null
+                const percentageAllocationInput = assetRow!.querySelector('.percentageAllocationInput') as HTMLInputElement | null
+                const specificFundInput = assetRow!.querySelector('.specificFundInputAuto') as HTMLInputElement | null
+                const currentValueInput = assetRow!.querySelector('.getCurrentValue') as HTMLInputElement | null
+
+                if (assetClassSelect && percentageAllocationInput && specificFundInput && currentValueInput) {
+                    assetClassSelect.value = requiredRecordToEdit[0].assets[i]!.assetClass ?? ''
+                    percentageAllocationInput.value = requiredRecordToEdit[0].assets[i]!.percentageAllocation ?? '';
+                    specificFundInput.value = requiredRecordToEdit[0].assets[i]!.specificFund ?? ''
+                    currentValueInput.value = requiredRecordToEdit[0].assets[i]!.currentValue ?? ''
+                }
+
             }
-        })
 
-        // Part-2
-        annualInvestmentCapacityInput.value = requiredRecordToEdit[0].annualInvestmentCapacity;
-        lumpSumAmountInput.value = requiredRecordToEdit[0].lumpSumAmount;
-        monthlyContributionInput.value = requiredRecordToEdit[0].monthlyContribution;
+            investmentStyleCheckbox.forEach(option => {
+                if (requiredRecordToEdit[0]?.investmentStyle.includes(option.value)) {
+                    option.checked = true;
+                }
+            })
 
-        // assets
-        const assetCount: number = requiredRecordToEdit[0].assets.length;
-        for (let i = 0; i < assetCount - 1; i++) {
-            addAsset();
+            // Part-3
+            automatedRebalancingRadio.forEach(radio => {
+                if (radio.value == requiredRecordToEdit[0]?.automatedRebalancing) {
+                    radio.checked = true;
+                }
+            })
+            taxSavingPrefernceRadio.forEach(radio => {
+                if (radio.value == requiredRecordToEdit[0]?.taxSavingPrefernce) {
+                    radio.checked = true;
+                }
+            })
+            financialGoalsInput.value = requiredRecordToEdit[0].financialGoals;
+            riskAckCheckbox.checked = true;
+            riskAckCheckbox.disabled = true;
+            riskAckCheckbox.classList.add('disable');
+            riskAcknowledgementLabel.classList.add('disable');
+
+            submitButton.innerText = 'Update'
         }
-
-        for (let i = 0; i < assetCount; i++) {
-            const assetRow = document.getElementById(`asset-${i}`) as HTMLDivElement
-            // console.log(assetRow);
-            const assetClassSelect: HTMLSelectElement | null = assetRow.querySelector('.assetClassDropdown')
-            const percentageAllocationInput: HTMLSelectElement | null = assetRow.querySelector('.percentageAllocationInput')
-            const specificFundInput: HTMLSelectElement | null = assetRow.querySelector('.specificFundInputAuto')
-            const currentValueInput: HTMLSelectElement | null = assetRow.querySelector('.getCurrentValue')
-
-            if (assetClassSelect && percentageAllocationInput && specificFundInput && currentValueInput) {
-                assetClassSelect.value = requiredRecordToEdit[0].assets[i].assetClass;
-                percentageAllocationInput.value = requiredRecordToEdit[0].assets[i].percentageAllocation;
-                specificFundInput.value = requiredRecordToEdit[0].assets[i].specificFund;
-                currentValueInput.value = requiredRecordToEdit[0].assets[i].currentValue;
-            }
-
-        }
-
-        investmentStyleCheckbox.forEach(option => {
-            if (requiredRecordToEdit[0].investmentStyle.includes(option.value)) {
-                option.checked = true;
-            }
-        })
-
-        // Part-3
-        automatedRebalancingRadio.forEach(radio => {
-            if (radio.value == requiredRecordToEdit[0].automatedRebalancing) {
-                radio.checked = true;
-            }
-        })
-        taxSavingPrefernceRadio.forEach(radio => {
-            if (radio.value == requiredRecordToEdit[0].taxSavingPrefernce) {
-                radio.checked = true;
-            }
-        })
-        financialGoalsInput.value = requiredRecordToEdit[0].financialGoals;
-        riskAckCheckbox.checked = true;
-        riskAckCheckbox.disabled = true;
-        riskAckCheckbox.classList.add('disable');
-        riskAcknowledgementLabel.classList.add('disable');
-
-        submitButton.innerText = 'Update'
     }
 }
 
@@ -304,14 +337,27 @@ export const emptyFields = () => {
     if (assetContainer) {
 
         while (assetContainer.children.length > 1) {
-            assetContainer.removeChild(assetContainer.lastElementChild)
+            assetContainer.removeChild(assetContainer.lastElementChild!)
         }
 
-        const firstAsset = assetContainer.children[0];
-        firstAsset.querySelector('.assetClassDropdown').value = ''
-        firstAsset.querySelector('.percentageAllocationInput').value = ''
-        firstAsset.querySelector('.specificFundInputAuto').value = ''
-        firstAsset.querySelector('.getCurrentValue').value = ''
+        const firstAsset = assetContainer!.children[0];
+
+        const assetClassDropdown: HTMLSelectElement | null = firstAsset!.querySelector('.assetClassDropdown')
+        if (assetClassDropdown) {
+            assetClassDropdown.value = ''
+        }
+        const percentageAllocationInput: HTMLSelectElement | null = firstAsset!.querySelector('.percentageAllocationInput')
+        if (percentageAllocationInput) {
+            percentageAllocationInput.value = ''
+        }
+        const specificFundInputAuto: HTMLSelectElement | null = firstAsset!.querySelector('.specificFundInputAuto')
+        if (specificFundInputAuto) {
+            specificFundInputAuto.value = ''
+        }
+        const getCurrentValue: HTMLSelectElement | null = firstAsset!.querySelector('.getCurrentValue')
+        if (getCurrentValue) {
+            getCurrentValue.value = ''
+        }
     }
 
 
@@ -350,5 +396,5 @@ export const emptyFields = () => {
 
 let selectedRowId: number | null = null;
 export const selectRow = (id: number | null) => {
-    selectedRowId = id;
+    selectedRowId = id ? Number(id) : null;
 }

@@ -1,5 +1,5 @@
-export declare const submitRecord: () => void;
-export declare const editRecord: () => void;
+export declare const submitRecord: () => boolean;
+export declare const editRecord: () => boolean;
 export declare const removeRecord: () => void;
 export declare const popupateForm: () => void;
 export declare const emptyFields: () => void;
