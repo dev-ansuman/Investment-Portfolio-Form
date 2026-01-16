@@ -1,6 +1,3 @@
-import { removeRecord, selectRow } from './formHandler.js'
-import { populateForm } from './formHandler.js'
-
 export const showDataInTable = () => {
     const localStorageDataString = localStorage.getItem('portfolioFormData')
 
@@ -10,7 +7,6 @@ export const showDataInTable = () => {
         const localStorageData = JSON.parse(localStorageDataString);
 
         const table = document.getElementById('formTable')
-        // table.innerHTML = ''
         table.innerHTML = `
         <thead>
             <tr>
@@ -32,37 +28,6 @@ export const showDataInTable = () => {
         localStorageData.forEach(record => {
             const row = document.createElement('tr')
             row.dataset.id = record.id;
-            // row.addEventListener('click', () => {
-            //     selectRow(record.id);
-
-            //     const activeClass = 'selectedRecord';
-            //     tbody.addEventListener('click', (event) => {
-            //         if (event.target && event.target.classList.contains(activeClass)) {
-            //             const currentActive = document.querySelector('.' + activeClass);
-            //             if (currentActive) {
-            //                 currentActive.classList.remove(activeClass);
-            //             }
-                        
-            //             event.target.classList.add(activeClass);
-            //         }
-            //     });
-
-
-            //     row.classList.add('selectedRecord')
-            //     const editButton = document.getElementById('editRecordButton');
-            //     editButton.addEventListener('click', () => {
-            //         populateForm()
-            //     })
-            // })
-
-            // row.addEventListener('click', () => {
-            //     selectRow(record.id);
-            //     row.style.background = 'red'
-            //     const deleteButton = document.getElementById('deleteRecordButton');
-            //     deleteButton.addEventListener('click', () => {
-            //         removeRecord();
-            //     })
-            // })
 
             row.innerHTML = `
             <td>${record.portfolioName}</td>
