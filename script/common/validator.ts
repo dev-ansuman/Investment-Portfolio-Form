@@ -22,7 +22,7 @@ export const checkExistingPorfolioName = (portfolioName: string, recordId: numbe
             if (nameExists.length > 0) {
                 nameExists[0]!.id === recordId
                 return false
-            } else return true
+            }
         }else{
             return nameExists.length > 0
         }

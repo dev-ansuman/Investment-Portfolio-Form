@@ -2,7 +2,6 @@ export const showDataInTable = () => {
     const localStorageDataString = localStorage.getItem('portfolioFormData');
     if (localStorageDataString) {
         const localStorageData = JSON.parse(localStorageDataString);
-        // console.log(localStorageData);
         const table = document.getElementById('formTable');
         if (table) {
             table.innerHTML = `

@@ -5,7 +5,6 @@ export const showDataInTable = () => {
     if (localStorageDataString) {
 
         const localStorageData: any[] = JSON.parse(localStorageDataString);
-        // console.log(localStorageData);
 
         const table = document.getElementById('formTable') as HTMLTableElement | null
         if (table) {

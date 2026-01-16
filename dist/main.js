@@ -1,13 +1,16 @@
-import { validatePart1PortfolioName, validatePart1PortfolioType, validatePart1InvestmentGoal, validatePart1InvestmentHorizon, validatePart1RiskTolerance, validatePart2AnnualInvestmentCapacity, validatePart2AssetClass, validatePart2percentageAllocation, validatePart3AutomatedRebalancing, validatePart3AckCheckBox, getSelectedRecordID } from './validations.js';
+import { validatePart1PortfolioName, validatePart1PortfolioType, validatePart1InvestmentGoal, validatePart1InvestmentHorizon, validatePart1RiskTolerance, validatePart2AnnualInvestmentCapacity, validatePart2AssetClass, validatePart2percentageAllocation, validatePart3AutomatedRebalancing, validatePart3AckCheckBox, getSelectedRecordID, nameTaken } from './validations.js';
 import { showDataInTable } from './tableHandler.js';
 import { submitRecord, editRecord, emptyFields, popupateForm, removeRecord, selectRow } from './formHandler.js';
 import { nextPage, previousPage } from './navigation.js';
-import { addAsset, removeAsset } from './assetManagement.js';
+import { addAsset, removeAsset, autoSuggestSpecificFund } from './assetManagement.js';
 // Real Time Validation
 // Part-1
 const portfolioNameInput = document.getElementById('portfolioNameInput');
 portfolioNameInput?.addEventListener('input', () => {
     validatePart1PortfolioName();
+});
+portfolioNameInput?.addEventListener('focusout', () => {
+    nameTaken();
 });
 const portfolioType = document.getElementsByName('portfolioType');
 portfolioType.forEach(portfolio => {
@@ -39,6 +42,7 @@ assetContainer?.addEventListener('change', (event) => {
     const target = event.target;
     if (target.classList.contains('assetClassDropdown')) {
         validatePart2AssetClass();
+        autoSuggestSpecificFund('.assetClassDropdown', '.specificFundInputAuto');
     }
 });
 assetContainer?.addEventListener('input', (event) => {

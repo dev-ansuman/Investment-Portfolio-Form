@@ -55,13 +55,13 @@ export const nextPage = () => {
         validatePart1InvestmentGoal()
         validatePart1InvestmentHorizon()
         validatePart1RiskTolerance()
-        nameTaken()
 
-        let moveToNextPage = nameTaken() && validatePart1PortfolioName() &&
+        let moveToNextPage = validatePart1PortfolioName() && 
+            nameTaken() && 
             validatePart1PortfolioType() &&
             validatePart1InvestmentGoal() &&
             validatePart1InvestmentHorizon() &&
-            validatePart1RiskTolerance() && nameTaken()
+            validatePart1RiskTolerance()
 
         if (moveToNextPage) {
 
@@ -88,6 +88,11 @@ export const nextPage = () => {
         let moveToNextPage = validatePart2AnnualInvestmentCapacity() &&
             validatePart2AssetClass() &&
             validatePart2percentageAllocation()
+
+        console.log('validatePart2AnnualInvestmentCapacity', validatePart2AnnualInvestmentCapacity())
+        console.log('validatePart2AssetClass', validatePart2AssetClass())
+        console.log('validatePart2percentageAllocation', validatePart2percentageAllocation())
+        console.log('page 2 to 3', moveToNextPage)
 
         if (moveToNextPage) {
             part1.style.display === 'none';

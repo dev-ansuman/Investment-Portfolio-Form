@@ -16,8 +16,6 @@ export const checkExistingPorfolioName = (portfolioName, recordId = null) => {
                 nameExists[0].id === recordId;
                 return false;
             }
-            else
-                return true;
         }
         else {
             return nameExists.length > 0;

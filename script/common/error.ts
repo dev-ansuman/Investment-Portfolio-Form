@@ -8,8 +8,7 @@ export const showError = (errorClass: string, parentClass: string, addAt: string
     errorMessage!.style.color = "red"
     errorMessage!.style.fontSize = fontSize
     if (addAt === 'append') {
-
-        parentElement?.appendChild(errorMessage!)
+        parentElement?.append(errorMessage!)
     } else if (addAt === 'after') {
         parentElement?.after(errorMessage!)
     }

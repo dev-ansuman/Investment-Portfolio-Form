@@ -68,3 +68,13 @@ export const removeAsset = (id) => {
         rowToRemove.remove();
     }
 };
+export const autoSuggestSpecificFund = (source, destination) => {
+    const assetClassDropdown = document.querySelectorAll(source);
+    const assetChosenAuto = document.querySelectorAll(destination);
+    if (assetClassDropdown) {
+        for (let i = 0; i < assetClassDropdown?.length; i++) {
+            const Value = assetClassDropdown[i].value;
+            assetChosenAuto[i].value = Value;
+        }
+    }
+};

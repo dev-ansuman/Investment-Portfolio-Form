@@ -114,43 +114,61 @@ export const validatePart2AnnualInvestmentCapacity = () => {
     }
     return isValid;
 };
-// validate the Asset Class (dropdown, required field)
+// validate the Asset Class (select, required field)
 export const validatePart2AssetClass = () => {
-    let isValid = true;
+    let presence = true;
     const assets = document.querySelectorAll('.assets');
     assets.forEach((row) => {
         const assetClass = row.querySelector('.assetClassDropdown');
-        // const specificFundAuto = row.querySelector('.specificFundAuto')
-        checkExistingError('errorAssetClass');
-        if (assetClass?.value === '') {
-            showError('errorAssetClass', 'assetDropdown', 'append', '12px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '');
-            isValid = false;
+        const assetDropdownContainer = row.querySelector('.assetDropdown');
+        const checkError = row.querySelector('.errorAssetClass');
+        if (checkError) {
+            checkError.remove();
+        }
+        if (assetClass?.value == '') {
+            const errorMessage = document.createElement('div');
+            errorMessage.className = 'errorAssetClass';
+            errorMessage.innerText = 'This is a required field!';
+            errorMessage.style.color = 'red';
+            errorMessage.style.fontSize = '12px';
+            assetDropdownContainer?.append(errorMessage);
+            presence = false;
         }
     });
-    return isValid;
+    return presence;
 };
-// export const autoSuggestSpecificFund = (assetId: string, specificFundId: string) => {
-//     const specificFundInput = document.getElementById(specificFundId) as HTMLInputElement | null
-//     const assetChosen = document.getElementById(assetId) as HTMLSelectElement | null
-//     specificFundInput?.value = assetChosen.value
-// }
 // validate the Percentage Allocation (input, required field)
 export const validatePart2percentageAllocation = () => {
-    let isValid = true;
+    let presence = true;
     const assets = document.querySelectorAll('.assets');
     assets.forEach((row) => {
+        // const deleteButton = row.querySelector('.removeAsset')
         const percentageAllocationInput = row.querySelector('.percentageAllocationInput');
-        checkExistingError('errorPercentageAllocation');
+        const percentageAllocation = row.querySelector('.percentageAllocation');
+        const checkError = row.querySelector('.errorPercentageAllocation');
+        if (checkError) {
+            checkError.remove();
+        }
         if (percentageAllocationInput?.value === '') {
-            showError('errorPercentageAllocation', 'percentageAllocation', 'append', '12px', MESSAGE.ERROR_MESSAGE.REQUIRED_FIELD, '');
-            isValid = false;
+            const errorMessage = document.createElement("div");
+            errorMessage.className = 'errorPercentageAllocation';
+            errorMessage.innerText = "This is a required Field!";
+            errorMessage.style.color = "red";
+            errorMessage.style.fontSize = '12px';
+            percentageAllocation?.appendChild(errorMessage);
+            presence = false;
         }
         else if (Number(percentageAllocationInput?.value) < 1 || Number(percentageAllocationInput?.value) > 100) {
-            showError('errorPercentageAllocation', 'percentageAllocation', 'append', '12px', MESSAGE.ERROR_MESSAGE.INVALID_PERCENTAGE, '');
-            isValid = false;
+            const errorMessage = document.createElement("div");
+            errorMessage.className = 'errorPercentageAllocation';
+            errorMessage.innerText = "Invalid Percentage!";
+            errorMessage.style.color = "red";
+            errorMessage.style.fontSize = '12px';
+            percentageAllocation?.appendChild(errorMessage);
+            presence = false;
         }
     });
-    return isValid;
+    return presence;
 };
 // Validations for part 3 of the form
 // validate the automatic rebalancing (radio, required field)

@@ -72,3 +72,18 @@ export const removeAsset = (id: string) => {
         rowToRemove.remove()
     }
 }
+
+export const autoSuggestSpecificFund = (source: string, destination: string) => {
+
+    const assetClassDropdown = document.querySelectorAll(source) as NodeListOf<HTMLSelectElement> | null
+    const assetChosenAuto = document.querySelectorAll(destination) as NodeListOf<HTMLInputElement> | null
+
+    if (assetClassDropdown) {
+
+        for (let i = 0; i < assetClassDropdown?.length; i++) {
+            const Value: string = assetClassDropdown[i]!.value
+            assetChosenAuto![i]!.value = Value
+        }
+    }
+
+}
